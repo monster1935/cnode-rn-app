@@ -72,7 +72,7 @@ const Tab  = TabNavigator(
             backgroundColor: '#333333'
         }
     }
-    }
+  }
 );
 
 
