@@ -10,6 +10,7 @@ import {
   FlatList,
 } from 'react-native';
 import axios from 'axios';
+import Loading from '../Loading';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,27 +29,37 @@ class PostList extends Component {
     super(props)
     this.state = {
       postList: [],
+      type: '',
+      isLoading: false,
     };
   }
   componentWillMount() {
-    console.log('component will mount');
-    console.log(this.props.navigation.state.routeName);
-    this.getPostData();
+    this.getPostData(this.state.type);
   }
-  componentDidMount() {
-    console.log('component did mount');
-    this.getPostData()
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.screenProps.routeName !== this.props.screenProps.routeName) {
+      this.getPostData(nextProps.screenProps.routeName);
+    }
   }
-  componentWillReceiveProps() {
-    console.log('component will receive props');
-  }
-  shouldComponentUpdate(nextProps) {
-    return false;
-  }
-  getPostData() {
-    axios.get('https://cnodejs.org/api/v1/topics').then(res => {
+  static navigationOptions = {
+   header: null
+  };
+
+  getPostData(type) {
+    this.setState({
+      isLoading: true,
+    });
+    axios.get('https://cnodejs.org/api/v1/topics',{
+      params: {
+        tab: type,
+        mdrender: false,
+      }
+    }).then(res => {
       const data = res.data;
       if (res.status === 200) {
+        this.setState({
+          isLoading: false,
+        });
         data.data.forEach(el => {
           el.key = el.id;
         });
@@ -67,10 +78,22 @@ class PostList extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>{this.state.postList.length}</Text>
+        {
+          this.state.isLoading ? (<Loading />) : (null)
+        }
         <FlatList
           data={this.state.postList}
-          renderItem={({item}) => <Text style={styles.item}>{item.title}</Text>}>
+          renderItem={
+            ({item}) => (
+              <Text
+                onPress={() => {this.props.navigation.navigate('Post', {item})}}
+                style={styles.item}
+              >
+                {item.title}
+              </Text>
+            )
+          }
+        >
         </FlatList>
       </View>
     );

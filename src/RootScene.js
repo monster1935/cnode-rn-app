@@ -9,21 +9,24 @@ import Favorite from './favorite';
 import Publish from './add';
 import Message from './messages';
 import Account from './account';
+import Post from './Post';
 
 const Tab  = TabNavigator(
   {
-    DiscoverMusic: {
+    Home: {
       screen: Home,
       navigationOptions: ({navigation}) => ({
         tabBarLabel: '主题',
+        header: null,
         tabBarIcon: ({ focused, tintColor }) => (
           <Icon name="md-home" size={30} color={tintColor}></Icon>
         )
       }),
     },
-    MyMusic: {
+    Favorite: {
       screen: Favorite,
       navigationOptions: ({navigation}) => ({
+        title: '收藏',
         tabBarLabel: '收藏',
         tabBarIcon: ({ focused, tintColor }) => (
           <Icon name="md-bookmark" size={30} color={tintColor}></Icon>
@@ -33,15 +36,17 @@ const Tab  = TabNavigator(
     Add: {
       screen: Publish,
       navigationOptions: ({navigation}) => ({
+        title: '发布',
         tabBarLabel: '',
         tabBarIcon: ({ focused, tintColor }) => (
           <Icon name="md-add-circle" size={30} color={tintColor}></Icon>
         )
       }),
     },
-    Friends: {
+    Messages: {
       screen: Message,
       navigationOptions: ({navigation}) => ({
+        title: '消息',
         tabBarLabel: '消息',
         tabBarIcon: ({ focused, tintColor }) => (
           <Icon name="md-folder" size={30} color={tintColor}></Icon>
@@ -51,6 +56,7 @@ const Tab  = TabNavigator(
     Account: {
       screen: Account,
       navigationOptions: ({navigation}) => ({
+        title: '我的',
         tabBarLabel: '我的',
         tabBarIcon: ({ focused, tintColor }) => (
           <Icon name="md-person" size={30} color={tintColor}></Icon>
@@ -61,9 +67,9 @@ const Tab  = TabNavigator(
   {
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
-    swipeEnabled: true,
+    swipeEnabled: false,
     animationEnabled: true,
-    initialRouteName: 'DiscoverMusic',
+    initialRouteName: 'Home',
     lazy: true,
     tabBarOptions: {
         activeTintColor: '#ffffff',

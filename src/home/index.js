@@ -3,44 +3,97 @@
 
 import React, { Component } from 'react';
 import { Text, View, FlatList, StyleSheet } from 'react-native';
-import { TabNavigator } from 'react-navigation';
+import { TabNavigator, StackNavigator } from 'react-navigation';
 import axios from 'axios';
 import PostList from './PostList';
+import Post from '../Post';
 
 const Tab = TabNavigator(
   {
-    All: {
+    all: {
       screen: PostList,
       navigationOptions: ({navigation}) => ({
         tabBarLabel: '全部',
       }),
     },
-    Good: {
+    good: {
       screen: PostList,
       navigationOptions: ({navigation}) => ({
         tabBarLabel: '精华',
       }),
     },
-    Share: {
+    share: {
       screen: PostList,
       navigationOptions: ({navigation}) => ({
         tabBarLabel: '分享',
       }),
     },
-    Job: {
+    ask: {
+      screen: PostList,
+      navigationOptions: ({navigation}) => ({
+        tabBarLabel: '问答',
+      }),
+    },
+    job: {
       screen: PostList,
       navigationOptions: ({navigation}) => ({
         tabBarLabel: '招聘',
       }),
     },
+  },
+  {
+    swipeEnabled: false,
+    animationEnabled: false,
+    initialRouteName: 'all',
+    lazy: true,
+    tabBarOptions: {
+        activeTintColor: '#ffffff',
+        inactiveTintColor: '#cccccc',
+        style: {
+            backgroundColor: '#333333'
+        }
+    }
   }
 );
 
+const HomeApp = StackNavigator(
+  {
+    Tab: { screen: Tab,},
+    Post: { screen: Post }
+  },
+);
+
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      screenProps: {
+        routeName: 'all',
+      },
+    };
+  }
+  componentWillMount() {
+    console.log('home component will mount');
+  }
+
+  handleNavigationStateChange(route) {
+    console.log('routename,', route);
+    this.setState({
+      screenProps: {
+        routeName: route.routeName
+      }
+    });
+  }
+
   render() {
     return (
       <View style={{flex: 1}}>
-        <Tab />
+        <HomeApp
+          screenProps={this.state.screenProps}
+          onNavigationStateChange={(prevState, currState, route) => {
+            this.handleNavigationStateChange(route);
+          }}
+        />
       </View>
     )
   }
