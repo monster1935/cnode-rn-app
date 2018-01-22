@@ -5,16 +5,20 @@ import {
   Text,
   ScrollView,
   StyleSheet,
-  Image
+  Image,
+  View
 } from 'react-native';
-import Markdown from 'react-native-easy-markdown';
+// import {MarkdownView} from 'react-native-markdown-view';
+// import postStyle from './post-style.js';
+import HTMLView from 'react-native-htmlview';
 
 const styles = StyleSheet.create(
   {
     container: {
       flex: 1,
       padding: 10,
-    }
+      backgroundColor: '#fff'
+    },
   }
 );
 
@@ -33,7 +37,7 @@ class Post extends Component {
   static navigationOptions = ({navigation}) => ({
     title: navigation.state.params.item.title,
     headerTitleStyle: {
-      fontSize: 16,
+      fontSize: 14,
     }
   })
 
@@ -44,13 +48,22 @@ class Post extends Component {
     });
   }
 
+  renderNode(node, index) {
+    node.name == 'img' && console.log(node.attribs.src);
+    if (node.name == 'img') {
+      return (
+        <Image
+          key={index}
+          source={{uri: node.attribs.src}}
+          style={{width: 640, height: 160}} />
+      );
+    }
+  }
 
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Markdown>
-          {this.state.postInfo.content}
-        </Markdown>
+        <HTMLView value={this.state.postInfo.content} renderNode={this.renderNode}/>
       </ScrollView>
     );
   }

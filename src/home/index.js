@@ -4,97 +4,38 @@
 import React, { Component } from 'react';
 import { Text, View, FlatList, StyleSheet } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
+import ScrollableView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import axios from 'axios';
 import PostList from './PostList';
-import Post from '../Post';
-
-const Tab = TabNavigator(
-  {
-    all: {
-      screen: PostList,
-      navigationOptions: ({navigation}) => ({
-        tabBarLabel: '全部',
-      }),
-    },
-    good: {
-      screen: PostList,
-      navigationOptions: ({navigation}) => ({
-        tabBarLabel: '精华',
-      }),
-    },
-    share: {
-      screen: PostList,
-      navigationOptions: ({navigation}) => ({
-        tabBarLabel: '分享',
-      }),
-    },
-    ask: {
-      screen: PostList,
-      navigationOptions: ({navigation}) => ({
-        tabBarLabel: '问答',
-      }),
-    },
-    job: {
-      screen: PostList,
-      navigationOptions: ({navigation}) => ({
-        tabBarLabel: '招聘',
-      }),
-    },
-  },
-  {
-    swipeEnabled: false,
-    animationEnabled: false,
-    initialRouteName: 'all',
-    lazy: true,
-    tabBarOptions: {
-        activeTintColor: '#ffffff',
-        inactiveTintColor: '#cccccc',
-        style: {
-            backgroundColor: '#333333'
-        }
-    }
-  }
-);
-
-const HomeApp = StackNavigator(
-  {
-    Tab: { screen: Tab,},
-    Post: { screen: Post }
-  },
-);
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      screenProps: {
-        routeName: 'all',
-      },
-    };
-  }
-  componentWillMount() {
-    console.log('home component will mount');
-  }
-
-  handleNavigationStateChange(route) {
-    console.log('routename,', route);
-    this.setState({
-      screenProps: {
-        routeName: route.routeName
-      }
-    });
-  }
 
   render() {
+    const types=[
+      { title: '全部', component: PostList, type: 'all' },
+      { title: '精华', component: PostList, type: 'good'},
+      { title: '分享', component: PostList, type: 'share'},
+      { title: '问答', component: PostList, type: 'ask'},
+      { title: '招聘', component: PostList, type: 'job'},
+
+    ];
+
     return (
-      <View style={{flex: 1}}>
-        <HomeApp
-          screenProps={this.state.screenProps}
-          onNavigationStateChange={(prevState, currState, route) => {
-            this.handleNavigationStateChange(route);
-          }}
-        />
-      </View>
+      <ScrollableView
+        style={{flex: 1, backgroundColor: '#eee'}}
+        tabBarTextStyle={{fontSize: 12}}
+        tabBarBackgroundColor="#fff"
+        tabBarActiveTextColor="#c62f2f"
+        tabBarInactiveTextColor="#333"
+        tabBarUnderlineStyle={{backgroundColor: '#c62f2f'}}
+        renderTabBar={() => <DefaultTabBar style={{borderBottomColor: '#eee'}} />}
+      >
+        { types.map((v,i) => {
+          const Component = v.component;
+          return <Component key={i} tabLabel={v.title} type={v.type}
+            navigation={this.props.navigation}>{v.title}</Component>
+        })}
+      </ScrollableView>
     )
   }
 };

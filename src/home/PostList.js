@@ -8,9 +8,10 @@ import {
   Text,
   StyleSheet,
   FlatList,
+  TouchableOpacity
 } from 'react-native';
 import axios from 'axios';
-import Loading from '../Loading';
+import PostItem from './PostItem';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,9 +19,9 @@ const styles = StyleSheet.create({
   },
   item: {
     padding: 10,
-    fontSize: 14,
+    fontSize: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: '#eee',
   },
 });
 
@@ -30,36 +31,46 @@ class PostList extends Component {
     this.state = {
       postList: [],
       type: '',
-      isLoading: false,
+      isLoading: true,
     };
   }
   componentWillMount() {
-    this.getPostData(this.state.type);
+    const { type } = this.props;
+    console.log('type: ', type);
+    this.setState({
+      type
+    }, () => {
+      this.getPostData(this.state.type);
+    });
+  }
+
+  componentDidMount() {
+    this.timer = setTimeout(() => {
+      this.setState({
+        delayShowScrollTableView: true,
+      });
+    }, 500);
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.screenProps.routeName !== this.props.screenProps.routeName) {
-      this.getPostData(nextProps.screenProps.routeName);
-    }
+    console.log('nextProps: ', nextProps);
   }
   static navigationOptions = {
    header: null
   };
 
   getPostData(type) {
-    this.setState({
-      isLoading: true,
-    });
+    console.log('getPostData, type: ', type);
     axios.get('https://cnodejs.org/api/v1/topics',{
       params: {
-        tab: type,
-        mdrender: false,
+        tab: type === 'all' ? '' : type,
+        // mdrender: false,rr
       }
     }).then(res => {
       const data = res.data;
+      this.setState({
+        isLoading: false,
+      });
       if (res.status === 200) {
-        this.setState({
-          isLoading: false,
-        });
         data.data.forEach(el => {
           el.key = el.id;
         });
@@ -75,24 +86,25 @@ class PostList extends Component {
     });;
   }
 
+  renderItem = ({item, index}) => (
+    <TouchableOpacity onPress={() => {this.props.navigation.navigate('Post', {item})}}>
+      <PostItem
+        item={item}
+        index={index}
+      />
+    </TouchableOpacity>
+  )
+
   render() {
     return (
       <View style={styles.container}>
-        {
-          this.state.isLoading ? (<Loading />) : (null)
-        }
         <FlatList
           data={this.state.postList}
-          renderItem={
-            ({item}) => (
-              <Text
-                onPress={() => {this.props.navigation.navigate('Post', {item})}}
-                style={styles.item}
-              >
-                {item.title}
-              </Text>
-            )
-          }
+          onRefresh={this.getPostData.bind(this, this.state.type)}
+          removeClippedSubviews={false}
+          refreshing={this.state.isLoading}
+          ListFooterComponent={() => <Text style={{textAlign: 'center', padding: 10, transform: [{scale: 0.857143}]}}>已加载完全部数据</Text>}
+          renderItem={this.renderItem}
         >
         </FlatList>
       </View>

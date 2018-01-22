@@ -19,7 +19,7 @@ const Tab  = TabNavigator(
         tabBarLabel: '主题',
         header: null,
         tabBarIcon: ({ focused, tintColor }) => (
-          <Icon name="md-home" size={30} color={tintColor}></Icon>
+          <Icon name="md-home" size={20} color={tintColor}></Icon>
         )
       }),
     },
@@ -29,7 +29,7 @@ const Tab  = TabNavigator(
         title: '收藏',
         tabBarLabel: '收藏',
         tabBarIcon: ({ focused, tintColor }) => (
-          <Icon name="md-bookmark" size={30} color={tintColor}></Icon>
+          <Icon name="md-bookmark" size={20} color={tintColor}></Icon>
         )
       }),
     },
@@ -39,7 +39,7 @@ const Tab  = TabNavigator(
         title: '发布',
         tabBarLabel: '',
         tabBarIcon: ({ focused, tintColor }) => (
-          <Icon name="md-add-circle" size={30} color={tintColor}></Icon>
+          <Icon name="md-add-circle" size={20} color={tintColor}></Icon>
         )
       }),
     },
@@ -49,7 +49,7 @@ const Tab  = TabNavigator(
         title: '消息',
         tabBarLabel: '消息',
         tabBarIcon: ({ focused, tintColor }) => (
-          <Icon name="md-folder" size={30} color={tintColor}></Icon>
+          <Icon name="md-folder" size={20} color={tintColor}></Icon>
         )
       }),
     },
@@ -59,7 +59,7 @@ const Tab  = TabNavigator(
         title: '我的',
         tabBarLabel: '我的',
         tabBarIcon: ({ focused, tintColor }) => (
-          <Icon name="md-person" size={30} color={tintColor}></Icon>
+          <Icon name="md-person" size={20} color={tintColor}></Icon>
         )
       }),
     },
@@ -68,12 +68,12 @@ const Tab  = TabNavigator(
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
     swipeEnabled: false,
-    animationEnabled: true,
+    animationEnabled: false,
     initialRouteName: 'Home',
     lazy: true,
     tabBarOptions: {
-        activeTintColor: '#ffffff',
-        inactiveTintColor: '#cccccc',
+        activeTintColor: '#c62f2f',
+        inactiveTintColor: '#eee',
         style: {
             backgroundColor: '#333333'
         }
@@ -85,10 +85,10 @@ const Tab  = TabNavigator(
 const BasicApp = StackNavigator(
   {
     Tab: { screen: Tab },
+    Post: { screen: Post },
   },
   {
     initialRouteName: 'Tab',
-    headerMode: 'none'
   }
 );
 
