@@ -6,7 +6,8 @@ import {
   ScrollView,
   StyleSheet,
   Image,
-  View
+  View,
+  Dimensions
 } from 'react-native';
 // import {MarkdownView} from 'react-native-markdown-view';
 // import postStyle from './post-style.js';
@@ -19,6 +20,12 @@ const styles = StyleSheet.create(
       padding: 10,
       backgroundColor: '#fff'
     },
+
+    img: {
+      width: 320,
+      height: 160,
+    }
+
   }
 );
 
@@ -51,11 +58,17 @@ class Post extends Component {
   renderNode(node, index) {
     node.name == 'img' && console.log(node.attribs.src);
     if (node.name == 'img') {
+      console.log(String(node.attribs.src));
+      // 兼容图片 src 不含有 http 的情况
+      if (node.attribs.src && !String(node.attribs.src).includes('https') || !String(node.attribs.src).includes('http')) {
+        node.attribs.src = 'http:' + node.attribs.src;
+      }
       return (
         <Image
           key={index}
           source={{uri: node.attribs.src}}
-          style={{width: 640, height: 160}} />
+          style={styles.img}
+        />
       );
     }
   }
@@ -68,4 +81,5 @@ class Post extends Component {
     );
   }
 };
+
 export default Post;

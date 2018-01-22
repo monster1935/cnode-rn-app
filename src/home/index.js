@@ -2,7 +2,7 @@
 // 主页组件
 
 import React, { Component } from 'react';
-import { Text, View, FlatList, StyleSheet } from 'react-native';
+import { Text, View, FlatList, StyleSheet, Image } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import ScrollableView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import axios from 'axios';
