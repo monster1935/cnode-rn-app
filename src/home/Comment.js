@@ -18,7 +18,9 @@ class Comment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      replies: [],
+      commonReplies: [],
+      goodReplies: [],
+
     };
   }
 
@@ -27,35 +29,53 @@ class Comment extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.replies !== this.props.replies) {
+      const { replies } = nextProps;
+      let goodReplies = [], commonReplies = [];
+      replies.forEach(el => {
+        if (el.ups.length > 5) {
+          goodReplies.push(el);
+        } else {
+          commonReplies.push(el);
+        }
+      });
       this.setState({
-        replies: nextProps.replies,
-      },() => {
-        console.log(this.state.replies);
+        commonReplies,
+        goodReplies,
       });
     }
   }
 
   render() {
+    const { goodReplies, commonReplies } = this.state;
     return (
       <View style={styles.container}>
+        {
+          goodReplies.length ? (
+            <View>
+              <View style={{padding: 10,justifyContent: 'center'}}>
+                <Text>精彩评论({goodReplies.length})</Text>
+              </View>
+              <View style={styles.comment}>
+                {
+                  goodReplies.map((reply,index) => {
+                    return (<CommentItem key={index} reply={reply} />);
+                  })
+                }
+              </View>
+            </View>
+          ) : null
+        }
         <View>
-          <View style={{padding: 10,justifyContent: 'center'}}><Text>精彩评论(7)</Text></View>
-          <View style={styles.comment}>
-            <CommentItem replies={this.state.replies}></CommentItem>
-            <CommentItem></CommentItem>
-            <CommentItem></CommentItem>
-            <CommentItem></CommentItem>
-            <CommentItem></CommentItem>
-            <CommentItem></CommentItem>
+          <View style={{padding: 10,justifyContent: 'center'}}>
+            <Text>评论({commonReplies.length})</Text>
           </View>
-        </View>
-        <View>
-          <View style={{padding: 10,justifyContent: 'center'}}><Text>评论(537)</Text></View>
           <View style={styles.comment}>
-            <CommentItem></CommentItem>
-            <CommentItem></CommentItem>
-            <CommentItem></CommentItem>
-            <CommentItem></CommentItem>
+            {
+              commonReplies.length ? commonReplies.map((reply,index) => {
+                  return (<CommentItem key={index} reply={reply} />);
+                }) : null
+
+            }
           </View>
         </View>
       </View>

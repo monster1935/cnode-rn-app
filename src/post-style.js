@@ -18,21 +18,21 @@ export default Object.freeze({
     fontWeight: '700',
   },
   heading1: {
-    fontSize: 24,
+    fontSize: 14,
     marginTop: 16,
     marginBottom: 16,
     marginLeft: 0,
     marginRight: 0,
   },
   heading2: {
-    fontSize: 20,
+    fontSize: 14,
     marginTop: 16,
     marginBottom: 16,
     marginLeft: 0,
     marginRight: 0,
   },
   heading3: {
-    fontSize: 16,
+    fontSize: 14,
     marginTop: 16,
     marginBottom: 16,
     marginLeft: 0,
@@ -46,14 +46,14 @@ export default Object.freeze({
     marginRight: 0,
   },
   heading5: {
-    fontSize: 11,
+    fontSize: 14,
     marginTop: 16,
     marginBottom: 16,
     marginLeft: 0,
     marginRight: 0,
   },
   heading6: {
-    fontSize: 11,
+    fontSize: 14,
     marginTop: 16,
     marginBottom: 16,
     marginLeft: 0,
@@ -102,6 +102,7 @@ export default Object.freeze({
   paragraph: {
     marginTop: 10,
     marginBottom: 10,
+    fontSize: 10,
   },
   strong: {
     fontWeight: '700',

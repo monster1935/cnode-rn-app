@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import { Image, Text, View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,38 +24,31 @@ class CommentItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      replies: []
+      reply: {}
     };
   }
 
   componentWillMount() {
     this.setState({
-      replies: this.props.replies,
+      reply: this.props.reply,
     });
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps !== this.props) {
-      this.setState({
-        replies: nextProps.replies,
-      });
-    }
-  }
   render() {
-    const { replies }  = this.state;
+    const { reply }  = this.state;
     return (
       <View style={styles.container}>
         <Image
-          source={{'uri': 'https://avatars1.githubusercontent.com/u/1147375?v=4&s=120'}}
+          source={{'uri': reply.author.avatar_url}}
           style={styles.avatar}
         />
       <View style={{flex: 1, borderBottomWidth: 1, borderBottomColor: '#eee'}}>
-          <Text style={{fontSize: 10, color: '#333', marginBottom: 6}}>alsotang</Text>
-          <Text style={{fontSize: 10, marginBottom: 6}}>我喜欢你的写作风格</Text>
+          <Text style={{fontSize: 10, color: '#333', marginBottom: 6}}>{reply.author.loginname}</Text>
+          <Text style={{fontSize: 10, marginBottom: 6}}>{reply.content}</Text>
           <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontSize: 10}}>昨天 18：59</Text>
+            <Text style={{fontSize: 10}}>{moment(reply.create_at).fromNow()}</Text>
             <View style={{flexDirection: 'row', marginBottom: 6}}>
               <Icon name="md-thumbs-up" size={16} color={'#ccc'}></Icon>
-              <Text style={{marginLeft: 6,fontSize: 10, color: '#ccc'}}>9</Text>
+              <Text style={{marginLeft: 6,fontSize: 10, color: '#ccc'}}>{reply.ups.length}</Text>
             </View>
           </View>
         </View>

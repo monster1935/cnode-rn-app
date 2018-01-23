@@ -9,9 +9,7 @@ import {
   View,
   Dimensions
 } from 'react-native';
-// import {MarkdownView} from 'react-native-markdown-view';
-// import postStyle from './post-style.js';
-import HTMLView from 'react-native-htmlview';
+
 import Comment from './home/Comment';
 import axios from 'axios';
 
@@ -20,50 +18,8 @@ const styles = StyleSheet.create(
     container: {
       flex: 1,
     },
-
-    img: {
-      width: 320,
-      height: 160,
-    },
-
-    h1: {
-      fontSize: 16,
-      color: '#333',
-      fontWeight: 'normal'
-    },
-    h2: {
-      fontSize: 16,
-      color: '#333',
-      fontWeight: 'normal'
-    },
-    h3: {
-      fontSize: 16,
-      color: '#333',
-      fontWeight: 'normal'
-    },
-    h4: {
-      fontSize: 16,
-      color: '#333',
-      fontWeight: 'normal'
-    },
-    h5: {
-      fontSize: 16,
-      color: '#333',
-      fontWeight: 'normal'
-    },
-    p: {
-      fontSize: 12,
-    },
-    li: {
-      fontSize: 12,
-    },
-    div: {
-      fontSize: 12,
-    }
   }
 );
-
-
 
 class Post extends Component {
 
@@ -96,8 +52,11 @@ class Post extends Component {
 
   getPostDetail() {
     const { id } = this.state;
-    axios.get(`https://cnodejs.org/api/v1/topic/${id}`).then((res) => {
-      console.log(res);
+    axios.get(`https://cnodejs.org/api/v1/topic/${id}`,{
+      params: {
+        mdrender: false,
+      }
+    }).then((res) => {
       if (res.status == 200) {
         const data = res.data.data;
         this.setState({
@@ -111,32 +70,13 @@ class Post extends Component {
     });
   }
 
-  renderNode(node, index) {
-    if (node.name == 'img') {
-      // 兼容图片 src 不含有 http 的情况
-      if (node.attribs.src && !String(node.attribs.src).includes('https') || !String(node.attribs.src).includes('http')) {
-        node.attribs.src = 'http:' + node.attribs.src;
-      }
-      return (
-        <Image
-          key={index}
-          source={{uri: node.attribs.src}}
-          style={{height: 640, width: 900 }}
-        />
-      );
-    }
-  }
-
   render() {
-    const { replies } = this.state.postInfo;
+    const { replies, content} = this.state.postInfo;
     return (
       <ScrollView style={styles.container}>
-        <HTMLView
-          style={{backgroundColor: '#fff', padding: 10}}
-          value={this.state.postInfo.content}
-          renderNode={this.renderNode}
-          stylesheet={styles}
-        />
+        <View style={{backgroundColor: '#fff', padding: 10}}>
+          <Text style={{fontSize: 10}}>{content}</Text>
+        </View>
         <View>
           <Comment replies={replies}></Comment>
         </View>
