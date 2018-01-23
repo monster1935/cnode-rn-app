@@ -12,20 +12,54 @@ import {
 // import {MarkdownView} from 'react-native-markdown-view';
 // import postStyle from './post-style.js';
 import HTMLView from 'react-native-htmlview';
+import Comment from './home/Comment';
+import axios from 'axios';
 
 const styles = StyleSheet.create(
   {
     container: {
       flex: 1,
-      padding: 10,
-      backgroundColor: '#fff'
     },
 
     img: {
       width: 320,
       height: 160,
-    }
+    },
 
+    h1: {
+      fontSize: 16,
+      color: '#333',
+      fontWeight: 'normal'
+    },
+    h2: {
+      fontSize: 16,
+      color: '#333',
+      fontWeight: 'normal'
+    },
+    h3: {
+      fontSize: 16,
+      color: '#333',
+      fontWeight: 'normal'
+    },
+    h4: {
+      fontSize: 16,
+      color: '#333',
+      fontWeight: 'normal'
+    },
+    h5: {
+      fontSize: 16,
+      color: '#333',
+      fontWeight: 'normal'
+    },
+    p: {
+      fontSize: 12,
+    },
+    li: {
+      fontSize: 12,
+    },
+    div: {
+      fontSize: 12,
+    }
   }
 );
 
@@ -50,15 +84,35 @@ class Post extends Component {
 
   componentWillMount() {
     const postInfo = this.props.navigation.state.params.item;
+    const { id } = postInfo;
     this.setState({
-      postInfo
+      postInfo: {},
+      id: id,
+    }, () => {
+      this.getPostDetail();
+    });
+
+  }
+
+  getPostDetail() {
+    const { id } = this.state;
+    axios.get(`https://cnodejs.org/api/v1/topic/${id}`).then((res) => {
+      console.log(res);
+      if (res.status == 200) {
+        const data = res.data.data;
+        this.setState({
+          postInfo: data,
+        });
+      } else {
+        console.warn(res.statusText);
+      }
+    }).catch(e => {
+      console.error(e);
     });
   }
 
   renderNode(node, index) {
-    node.name == 'img' && console.log(node.attribs.src);
     if (node.name == 'img') {
-      console.log(String(node.attribs.src));
       // 兼容图片 src 不含有 http 的情况
       if (node.attribs.src && !String(node.attribs.src).includes('https') || !String(node.attribs.src).includes('http')) {
         node.attribs.src = 'http:' + node.attribs.src;
@@ -67,16 +121,25 @@ class Post extends Component {
         <Image
           key={index}
           source={{uri: node.attribs.src}}
-          style={styles.img}
+          style={{height: 640, width: 900 }}
         />
       );
     }
   }
 
   render() {
+    const { replies } = this.state.postInfo;
     return (
       <ScrollView style={styles.container}>
-        <HTMLView value={this.state.postInfo.content} renderNode={this.renderNode}/>
+        <HTMLView
+          style={{backgroundColor: '#fff', padding: 10}}
+          value={this.state.postInfo.content}
+          renderNode={this.renderNode}
+          stylesheet={styles}
+        />
+        <View>
+          <Comment replies={replies}></Comment>
+        </View>
       </ScrollView>
     );
   }
