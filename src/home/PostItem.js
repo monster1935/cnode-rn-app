@@ -29,19 +29,26 @@ class PostItem extends Component {
     return (
       <View style={styles.container}>
         <View style={{flex: 1, flexDirection: 'row'}}>
-          <Image source={{uri: item.author.avatar_url}} style={{width: 20, height: 20, borderRadius: 10}}></Image>
-          <Text style={{marginLeft: 6, fontSize: 10}}>
-            {item.author.loginname} 发布了文章 ● {createTime}
+          <Image
+            source={{uri: item.author.avatar_url}}
+            style={{width: 20, height: 20, borderRadius: 10}}
+          />
+          <Text style={{marginLeft: 6, fontSize: 12}}>
+            {item.author.loginname} 发布了文章 ▪ {createTime}
           </Text>
         </View>
         <View style={{marginBottom: 6}}>
-          <Text style={{color: '#333', marginTop: 6, marginBottom: 6, fontSize: 12}}>{item.title}</Text>
-          <Text style={{ fontSize: 10}}>{item.content.substring(0,100)}</Text>
+          <Text
+            style={{color: '#333', marginTop: 6, marginBottom: 6, fontSize: 14}}
+          >
+            {item.title}
+          </Text>
+          <Text style={{ fontSize: 12}}>{item.content.substring(0,100)}</Text>
         </View>
         <View>
-          <Text style={{ fontSize: 10}}>
-            {item.reply_count} 评论 ●
-            {item.visit_count} 浏览 ●
+          <Text style={{ fontSize: 12}}>
+            {item.reply_count} 评论 ▪
+            {item.visit_count} 浏览 ▪
             {replyTime} 最后回复
           </Text>
         </View>

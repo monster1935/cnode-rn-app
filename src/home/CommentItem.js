@@ -42,13 +42,33 @@ class CommentItem extends Component {
           style={styles.avatar}
         />
       <View style={{flex: 1, borderBottomWidth: 1, borderBottomColor: '#eee'}}>
-          <Text style={{fontSize: 10, color: '#333', marginBottom: 6}}>{reply.author.loginname}</Text>
-          <Text style={{fontSize: 10, marginBottom: 6}}>{reply.content}</Text>
-          <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontSize: 10}}>{moment(reply.create_at).fromNow()}</Text>
-            <View style={{flexDirection: 'row', marginBottom: 6}}>
+          <Text
+            style={{fontSize: 12, color: '#333', marginBottom: 6}}
+          >
+            {reply.author.loginname}
+          </Text>
+          <Text
+            style={{fontSize: 14, marginBottom: 6}}
+          >
+            {reply.content}
+          </Text>
+          <View
+            style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}
+          >
+            <Text
+              style={{fontSize: 12}}
+            >
+              {moment(reply.create_at).fromNow()}
+            </Text>
+            <View
+              style={{flexDirection: 'row', marginBottom: 6}}
+            >
               <Icon name="md-thumbs-up" size={16} color={'#ccc'}></Icon>
-              <Text style={{marginLeft: 6,fontSize: 10, color: '#ccc'}}>{reply.ups.length}</Text>
+              <Text
+                style={{marginLeft: 6,fontSize: 12, color: '#ccc'}}
+              >
+                {reply.ups.length}
+              </Text>
             </View>
           </View>
         </View>

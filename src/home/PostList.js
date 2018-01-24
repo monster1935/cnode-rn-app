@@ -25,18 +25,21 @@ const styles = StyleSheet.create({
   },
 });
 
+const pageNumber = 1;
+
 class PostList extends Component {
   constructor(props) {
     super(props)
     this.state = {
       postList: [],
       type: '',
-      isLoading: true,
+      isRefreshing: true,
+      isLoadingMore: true,
+
     };
   }
   componentWillMount() {
     const { type } = this.props;
-    console.log('type: ', type);
     this.setState({
       type
     }, () => {
@@ -44,31 +47,26 @@ class PostList extends Component {
     });
   }
 
-  componentDidMount() {
-    this.timer = setTimeout(() => {
-      this.setState({
-        delayShowScrollTableView: true,
-      });
-    }, 500);
-  }
-  componentWillReceiveProps(nextProps) {
-    console.log('nextProps: ', nextProps);
-  }
   static navigationOptions = {
    header: null
   };
 
-  getPostData(type) {
-    console.log('getPostData, type: ', type);
-    axios.get('https://cnodejs.org/api/v1/topics',{
+  doGetData(type, param = {}) {
+    return axios.get('https://cnodejs.org/api/v1/topics',{
       params: {
+        ...param,
         tab: type === 'all' ? '' : type,
         mdrender: false,
       }
-    }).then(res => {
+    });
+  }
+
+  getPostData(type, param = {}) {
+    this.doGetData(type, param).then(res => {
       const data = res.data;
       this.setState({
-        isLoading: false,
+        isRefreshing: false,
+        isLoadingMore: false,
       });
       if (res.status === 200) {
         data.data.forEach(el => {
@@ -80,14 +78,38 @@ class PostList extends Component {
       } else {
         console.warn(res.statusText);
       }
-
     }).catch(e => {
       console.error(e);
     });;
   }
 
+  loadMore() {
+    const { isLoadingMore }  = this.state;
+    if (!isLoadingMore) {
+      this.setState({
+        isLoadingMore: true
+      });
+      this.doGetData(this.state.type, { page: ++pageNumber }).then(res => {
+        const data = res.data;
+        this.setState({
+          isLoadingMore: false,
+        });
+        if (res.status === 200) {
+          data.data.forEach(el => {
+            el.key = el.id;
+          });
+          this.setState({
+            postList: this.state.postList.concat(data.data)
+          });
+        }
+      });
+    }
+  }
+
   renderItem = ({item, index}) => (
-    <TouchableOpacity onPress={() => {this.props.navigation.navigate('Post', {item})}}>
+    <TouchableOpacity
+      onPress={() => {this.props.navigation.navigate('Post', {item})}}
+    >
       <PostItem
         item={item}
         index={index}
@@ -102,11 +124,11 @@ class PostList extends Component {
           data={this.state.postList}
           onRefresh={this.getPostData.bind(this, this.state.type)}
           removeClippedSubviews={false}
-          refreshing={this.state.isLoading}
+          refreshing={this.state.isRefreshing}
+          onEndReached={this.loadMore.bind(this)}
           ListFooterComponent={() => <Text style={{textAlign: 'center', padding: 10, transform: [{scale: 0.857143}]}}>已加载完全部数据</Text>}
           renderItem={this.renderItem}
-        >
-        </FlatList>
+        />
       </View>
     );
   }

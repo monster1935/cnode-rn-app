@@ -9,7 +9,7 @@ import Favorite from './favorite';
 import Publish from './add';
 import Message from './messages';
 import Account from './account';
-import Post from './Post';
+import Post from './home/Post';
 
 const Tab  = TabNavigator(
   {
@@ -72,10 +72,13 @@ const Tab  = TabNavigator(
     initialRouteName: 'Home',
     lazy: true,
     tabBarOptions: {
-        activeTintColor: '#c62f2f',
-        inactiveTintColor: '#eee',
+        activeTintColor: '#343434',
+        inactiveTintColor: '#aaa',
+        labelStyle: {
+          fontSize: 14,
+        },
         style: {
-            backgroundColor: '#333333'
+            backgroundColor: '#fff',
         }
     }
   }

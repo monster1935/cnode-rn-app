@@ -23,11 +23,11 @@ class Home extends Component {
     return (
       <ScrollableView
         style={{flex: 1, backgroundColor: '#eee'}}
-        tabBarTextStyle={{fontSize: 12}}
+        tabBarTextStyle={{fontSize: 14}}
         tabBarBackgroundColor="#fff"
-        tabBarActiveTextColor="#c62f2f"
-        tabBarInactiveTextColor="#333"
-        tabBarUnderlineStyle={{backgroundColor: '#c62f2f'}}
+        tabBarActiveTextColor="#343434"
+        tabBarInactiveTextColor="#aaa"
+        tabBarUnderlineStyle={{backgroundColor: '#343434'}}
         renderTabBar={() => <DefaultTabBar style={{borderBottomColor: '#eee'}} />}
       >
         { types.map((v,i) => {
