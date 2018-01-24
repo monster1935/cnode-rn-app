@@ -36,7 +36,7 @@ class PostItem extends Component {
         </View>
         <View style={{marginBottom: 6}}>
           <Text style={{color: '#333', marginTop: 6, marginBottom: 6, fontSize: 12}}>{item.title}</Text>
-          <Text style={{ fontSize: 10}}>{item.content.split(0,1)}</Text>
+          <Text style={{ fontSize: 10}}>{item.content.substring(0,100)}</Text>
         </View>
         <View>
           <Text style={{ fontSize: 10}}>

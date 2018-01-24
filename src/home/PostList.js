@@ -63,7 +63,7 @@ class PostList extends Component {
     axios.get('https://cnodejs.org/api/v1/topics',{
       params: {
         tab: type === 'all' ? '' : type,
-        // mdrender: false,rr
+        mdrender: false,
       }
     }).then(res => {
       const data = res.data;
