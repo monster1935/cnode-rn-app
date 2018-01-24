@@ -126,7 +126,7 @@ class PostList extends Component {
           removeClippedSubviews={false}
           refreshing={this.state.isRefreshing}
           onEndReached={this.loadMore.bind(this)}
-          ListFooterComponent={() => <Text style={{textAlign: 'center', padding: 10, transform: [{scale: 0.857143}]}}>已加载完全部数据</Text>}
+          ListFooterComponent={() => <Text style={{textAlign: 'center', padding: 10, transform: [{scale: 0.857143}]}}>已加载全部数据</Text>}
           renderItem={this.renderItem}
         />
       </View>

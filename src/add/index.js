@@ -8,10 +8,21 @@ class Publish extends Component {
   componentWillMount() {
     console.log('add component will mount');
   }
+  static navigationOptions = ({navigation}) => ({
+    title: '发布',
+    headerTitleStyle: {
+      fontSize: 16,
+      color: '#FEFEFE',
+    },
+    headerTintColor: '#FEFEFE',
+    headerStyle: {
+      backgroundColor: '#343434',
+    }
+  })
   render() {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>发布</Text>
+        <Text>开发中，敬请期待...</Text>
       </View>
     )
   }

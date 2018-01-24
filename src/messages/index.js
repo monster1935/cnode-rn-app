@@ -7,10 +7,21 @@ class Messages extends Component {
   componentWillMount() {
     console.log('message component will mount');
   }
+  static navigationOptions = ({navigation}) => ({
+    title: '消息',
+    headerTitleStyle: {
+      fontSize: 16,
+      color: '#FEFEFE',
+    },
+    headerTintColor: '#FEFEFE',
+    headerStyle: {
+      backgroundColor: '#343434',
+    }
+  })
   render() {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>消息</Text>
+        <Text>开发中，敬请期待...</Text>
       </View>
     )
   }
