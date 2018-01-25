@@ -25,9 +25,9 @@ class ListItem extends Component {
   render() {
     const { title, icon } = this.state;
     return (
-      <View style={{flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#eee', paddingTop: 10, paddingBottom: 10, alignItems: 'center'}}>
-        <Icon name={icon} size={20} color={"#000"} style={{width: 30}}></Icon>
-        <Text>{title}</Text>
+      <View style={{flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#eee', paddingTop: 11, paddingBottom: 11, alignItems: 'center'}}>
+        <Icon name={icon} size={20} color={"#343434"} style={{width: 30}}></Icon>
+        <Text style={{fontSize: 16}}>{title}</Text>
       </View>
     )
   }

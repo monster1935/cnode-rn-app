@@ -10,7 +10,7 @@ class Messages extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '消息',
     headerTitleStyle: {
-      fontSize: 16,
+      fontSize: 18,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',
@@ -20,7 +20,7 @@ class Messages extends Component {
   })
   render() {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',backgroundColor: '#eee'}}>
         <Text>开发中，敬请期待...</Text>
       </View>
     )

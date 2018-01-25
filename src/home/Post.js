@@ -21,6 +21,7 @@ const styles = StyleSheet.create(
   {
     container: {
       flex: 1,
+      backgroundColor: '#eee',
     },
     block: {
       backgroundColor: '#fff',
@@ -42,7 +43,7 @@ class Post extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '话题',
     headerTitleStyle: {
-      fontSize: 16,
+      fontSize: 18,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',

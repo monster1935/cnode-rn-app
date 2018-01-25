@@ -17,7 +17,7 @@ class Account extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '我的',
     headerTitleStyle: {
-      fontSize: 16,
+      fontSize: 18,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',
@@ -72,8 +72,8 @@ class Account extends Component {
             </View>
           </TouchableNativeFeedback>
           <View style={{justifyContent: 'center'}}>
-            <Text style={{marginBottom: 10}}>{loginname || '登录CNode社区，体验更多功能'}</Text>
-            <Text style={{fontSize: 12}}>点击头像登录</Text>
+            <Text style={{marginBottom: 10, fontSize: 16}}>{loginname || '登录CNode社区，体验更多功能'}</Text>
+            <Text>点击头像登录</Text>
           </View>
         </View>
         <View style={{backgroundColor: '#fff',paddingLeft: 20, paddingRight: 20, marginBottom: 20}}>
@@ -108,6 +108,7 @@ class Account extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#eee',
   },
   block: {
     padding: 20,

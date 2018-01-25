@@ -24,7 +24,7 @@ class Favorite extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '收藏',
     headerTitleStyle: {
-      fontSize: 16,
+      fontSize: 18,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',
@@ -69,7 +69,7 @@ class Favorite extends Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1,backgroundColor: '#eee'}}>
         <FlatList
           data={this.state.postList}
           onRefresh={this.getData.bind(this)}

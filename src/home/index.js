@@ -9,6 +9,17 @@ import axios from 'axios';
 import PostList from './PostList';
 
 class Home extends Component {
+  static navigationOptions = ({navigation}) => ({
+    title: '主题',
+    headerTitleStyle: {
+      fontSize: 18,
+      color: '#FEFEFE',
+    },
+    headerTintColor: '#FEFEFE',
+    headerStyle: {
+      backgroundColor: '#343434',
+    }
+  });
 
   render() {
     const types=[
@@ -23,7 +34,7 @@ class Home extends Component {
     return (
       <ScrollableView
         style={{flex: 1, backgroundColor: '#eee'}}
-        tabBarTextStyle={{fontSize: 14}}
+        tabBarTextStyle={{fontSize: 16}}
         tabBarBackgroundColor="#fff"
         tabBarActiveTextColor="#343434"
         tabBarInactiveTextColor="#aaa"

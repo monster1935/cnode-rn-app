@@ -21,7 +21,7 @@ class Login extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '登录',
     headerTitleStyle: {
-      fontSize: 16,
+      fontSize: 18,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',
@@ -100,7 +100,7 @@ class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{width: 200}}>
+        <View style={{width: 300}}>
           <View style={{marginBottom: 10}}>
             <Text style={{textAlign: 'center',fontSize: 16, marginBottom: 20 }}>Token登录</Text>
             <TextInput
@@ -121,7 +121,7 @@ class Login extends Component {
           <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20}}>
             <TouchableNativeFeedback onPress={this.onPressQrLogin.bind(this)}>
               <View style={styles.loginWay}>
-                <Icon name="md-qr-scanner" size={22} color="#666" style={{marginRight: 6}}/>
+                <Icon name="md-qr-scanner" size={22} color="#343434" style={{marginRight: 6}}/>
                 <Text>扫码登录</Text>
               </View>
             </TouchableNativeFeedback>
@@ -137,7 +137,7 @@ class Login extends Component {
           <View>
             <TouchableNativeFeedback onPress={this.onPressHelp.bind(this)}>
               <View>
-                <Text style={{textAlign: 'center', fontSize: 12, color: '#343434',textDecorationLine: 'underline'}}>
+                <Text style={{textAlign: 'center', fontSize: 12,textDecorationLine: 'underline'}}>
                   如何获取Access Token?
                 </Text>
               </View>
@@ -173,13 +173,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#fff',
-    paddingTop: 30,
+    paddingTop: 100,
   },
   btnLogin: {
     justifyContent: 'center',
     alignItems: 'center',
     height: 40,
-    width: 200,
+    width: 300,
     backgroundColor: '#343434',
   },
   loginWay: {

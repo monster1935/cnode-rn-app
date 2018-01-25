@@ -12,7 +12,7 @@ class Setting extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '设置',
     headerTitleStyle: {
-      fontSize: 16,
+      fontSize: 18,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',
@@ -33,7 +33,9 @@ class Setting extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#eee',
   }
 });
 

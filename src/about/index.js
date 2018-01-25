@@ -12,7 +12,7 @@ class About extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '关于',
     headerTitleStyle: {
-      fontSize: 16,
+      fontSize: 18,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#eee'
   }
 });
 

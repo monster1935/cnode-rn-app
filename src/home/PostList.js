@@ -17,12 +17,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  item: {
-    padding: 10,
-    fontSize: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
 });
 
 const pageNumber = 1;

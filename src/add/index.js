@@ -11,7 +11,7 @@ class Publish extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '发布',
     headerTitleStyle: {
-      fontSize: 16,
+      fontSize: 18,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',

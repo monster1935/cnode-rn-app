@@ -1,4 +1,4 @@
-// Copyright (c) 2218 by monster1935. All Rights Reserved.
+// Copyright (c) 2018 by monster1935. All Rights Reserved.
 import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
 import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
@@ -31,9 +31,8 @@ const Tab  = TabNavigator(
       screen: Home,
       navigationOptions: ({navigation}) => ({
         tabBarLabel: '主题',
-        header: null,
         tabBarIcon: ({ focused, tintColor }) => (
-          <Icon name="md-home" size={22} color={tintColor}></Icon>
+          <Icon name="md-home" size={24} color={tintColor}></Icon>
         )
       }),
     },
@@ -43,16 +42,7 @@ const Tab  = TabNavigator(
         title: '收藏',
         tabBarLabel: '收藏',
         tabBarIcon: ({ focused, tintColor }) => (
-          <Icon name="md-bookmark" size={22} color={tintColor}></Icon>
-        )
-      }),
-    },
-    Add: {
-      screen: Publish,
-      navigationOptions: ({navigation}) => ({
-        tabBarLabel: '',
-        tabBarIcon: ({ focused, tintColor }) => (
-          <Icon name="md-add-circle" size={22} color={tintColor}></Icon>
+          <Icon name="md-bookmark" size={24} color={tintColor}></Icon>
         )
       }),
     },
@@ -61,7 +51,7 @@ const Tab  = TabNavigator(
       navigationOptions: ({navigation}) => ({
         tabBarLabel: '消息',
         tabBarIcon: ({ focused, tintColor }) => (
-          <Icon name="md-folder" size={22} color={tintColor}></Icon>
+          <Icon name="md-folder" size={24} color={tintColor}></Icon>
         )
       }),
     },
@@ -70,7 +60,7 @@ const Tab  = TabNavigator(
       navigationOptions: ({navigation}) => ({
         tabBarLabel: '我的',
         tabBarIcon: ({ focused, tintColor }) => (
-          <Icon name="md-person" size={22} color={tintColor}></Icon>
+          <Icon name="md-person" size={24} color={tintColor}></Icon>
         )
       }),
     },
@@ -90,6 +80,9 @@ const Tab  = TabNavigator(
         },
         style: {
             backgroundColor: '#fff',
+            height: 54,
+            paddingBottom: 6,
+            paddingTop: 6,
         }
     }
   }
