@@ -6,7 +6,7 @@ import {
   Text,
   View,
   FlatList,
-  TouchableOpacity,
+  TouchableNativeFeedback,
   Image,
 } from 'react-native';
 import axios from 'axios';
@@ -55,14 +55,16 @@ class Favorite extends Component {
   }
 
   renderItem = ({item, index}) => (
-    <TouchableOpacity
+    <TouchableNativeFeedback
       onPress={() => {this.props.navigation.navigate('Post', {item})}}
     >
-      <PostItem
-        item={item}
-        index={index}
-      />
-    </TouchableOpacity>
+      <View>
+        <PostItem
+          item={item}
+          index={index}
+        />
+      </View>
+    </TouchableNativeFeedback>
   )
 
   render() {

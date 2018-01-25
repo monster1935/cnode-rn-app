@@ -8,7 +8,7 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  TouchableOpacity
+  TouchableNativeFeedback
 } from 'react-native';
 import axios from 'axios';
 import PostItem from './PostItem';
@@ -107,14 +107,19 @@ class PostList extends Component {
   }
 
   renderItem = ({item, index}) => (
-    <TouchableOpacity
-      onPress={() => {this.props.navigation.navigate('Post', {item})}}
+    <TouchableNativeFeedback
+      onPress={() => {
+        console.log('press');
+        this.props.navigation.navigate('Post', {item});
+      }}
     >
-      <PostItem
-        item={item}
-        index={index}
-      />
-    </TouchableOpacity>
+      <View>
+        <PostItem
+          item={item}
+          index={index}
+        />
+      </View>
+    </TouchableNativeFeedback>
   )
 
   render() {

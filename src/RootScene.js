@@ -3,6 +3,10 @@ import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
 import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducer from './redux/reducer';
+
 
 import Home from './home';
 import Favorite from './favorite';
@@ -10,6 +14,16 @@ import Publish from './add';
 import Message from './messages';
 import Account from './account';
 import Post from './home/Post';
+import Login from './login';
+import Setting from './setting';
+import About from './about';
+
+// 创建store 用于公共状态管理
+const store = createStore(reducer,{
+  token: '',
+  userInfo: {},
+});
+console.log(store.getState());
 
 const Tab  = TabNavigator(
   {
@@ -86,6 +100,9 @@ const BasicApp = StackNavigator(
   {
     Tab: { screen: Tab },
     Post: { screen: Post },
+    Login: { screen: Login },
+    About: { screen: About },
+    Setting: { screen: Setting },
   },
   {
     initialRouteName: 'Tab',
@@ -96,9 +113,12 @@ const BasicApp = StackNavigator(
 class RootScene extends PureComponent {
   render() {
     return (
-      <View style={{flex:1}}>
-        <BasicApp />
-      </View>
+      <Provider store={store}>
+        <View style={{flex:1}}>
+          <BasicApp />
+        </View>
+      </Provider>
+
     )
   }
 };
