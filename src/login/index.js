@@ -12,7 +12,9 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { MaterialDialog } from 'react-native-material-dialog';
 import { setToken, setUserInfo } from '../redux/actions';
+import Message from '../common/Message';
 
 class Login extends Component {
 
@@ -35,23 +37,13 @@ class Login extends Component {
       userInfo: {},
       modalVisible: false,
       infoText: '',
+      helpVis: false,
+      helpText: '用户登录后，在设置页面可以看到自己的 accessToken。 建议各移动端应用使用手机扫码的形式登录，验证使用 /accesstoken 接口，登录后长期保存 accessToken。'
     };
   }
 
   componentWillMount() {
     console.log(this.props);
-  }
-
-  openModal() {
-    this.setState({
-      modalVisible: true,
-    });
-  }
-
-  closeModal() {
-    this.setState({
-      modalVisible: false,
-    });
   }
 
   checkLogin() {
@@ -62,7 +54,7 @@ class Login extends Component {
   }
 
   onPressLogin() {
-    console.log('login');
+    console.log('login press');
     this.checkLogin()
     .then(res => {
       const data = res.data;
@@ -84,10 +76,8 @@ class Login extends Component {
       // login failed
       const { error_msg } = e.response.data;
       this.setState({
-        infoText: error_msg
-      },() => {
-        this.openModal();
-        setTimeout(() => { this.closeModal();}, 1500);
+        infoText: error_msg,
+        modalVisible: true,
       });
     });
   }
@@ -101,7 +91,10 @@ class Login extends Component {
   }
 
   onPressHelp() {
-    console.log('press help');
+    this.setState({
+      helpVis: true,
+      modalVisible: false,
+    });
   }
 
   render() {
@@ -154,18 +147,22 @@ class Login extends Component {
 
         </View>
 
-        <Modal
+
+        <Message
           visible={this.state.modalVisible}
-          animationType={'slide'}
-          onRequestClose={() => this.closeModel()}
-          transparent={true}
+          innerText={this.state.infoText}
+        />
+
+        <MaterialDialog
+          title="提示"
+          visible={this.state.helpVis}
+          onOk={() => this.setState({ helpVis: false})}
+          onCancel={() => this.setState({ helpVis: false})}
         >
-          <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center'}}>
-            <View style={styles.modalView}>
-              <Text style={styles.innerText}>{this.state.infoText}</Text>
-            </View>
-          </View>
-        </Modal>
+          <Text>
+            {this.state.helpText}
+          </Text>
+        </MaterialDialog>
       </View>
     )
   }
@@ -188,20 +185,6 @@ const styles = StyleSheet.create({
   loginWay: {
     flexDirection: 'row',
   },
-  modalView: {
-    width: 150,
-    backgroundColor: '#333',
-    borderRadius: 4,
-    opacity: 0.5,
-    padding: 10,
-    marginBottom: 50,
-  },
-  innerText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 12,
-  }
-
 });
 
 export default connect()(Login);

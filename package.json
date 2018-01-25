@@ -11,16 +11,13 @@
     "moment": "^2.20.1",
     "react": "16.0.0",
     "react-native": "0.51.0",
-    "react-native-easy-loading": "^1.0.4",
-    "react-native-easy-markdown": "^1.1.9",
-    "react-native-htmlview": "^0.12.1",
-    "react-native-markdown-renderer": "^3.0.0",
-    "react-native-markdown-view": "^1.1.4",
+    "react-native-material-dialog": "^0.7.4",
     "react-native-scrollable-tab-view": "^0.8.0",
-    "react-native-simple-markdown": "^1.1.0",
     "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.0.0-beta.27",
-    "react-navigator": "^0.0.0-0"
+    "react-navigator": "^0.0.0-0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "babel-jest": "22.0.4",
