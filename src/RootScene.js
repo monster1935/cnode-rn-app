@@ -15,8 +15,13 @@ import Message from './messages';
 import Account from './account';
 import Post from './home/Post';
 import Login from './login';
+import QrCode from './qrcode';
+import Github from './github';
 import Setting from './setting';
 import About from './about';
+import User from './user';
+import storage from './util/storage';
+import { setToken, setUserInfo } from './redux/actions';
 
 // 创建store 用于公共状态管理
 const store = createStore(reducer,{
@@ -24,6 +29,25 @@ const store = createStore(reducer,{
   userInfo: {},
 });
 console.log(store.getState());
+
+
+// 读取登录token
+storage.load({
+  key: 'cnode',
+  autoSync: true,
+  syncInBackground: true,
+})
+.then(res => {
+  console.log('获取用户信息成功：', res);
+  if (res.token) {
+    store.dispatch(setUserInfo(res.userInfo, res.token));
+  }
+})
+.catch(e => {
+  console.log(e);
+});
+
+
 
 const Tab  = TabNavigator(
   {
@@ -96,6 +120,9 @@ const BasicApp = StackNavigator(
     Login: { screen: Login },
     About: { screen: About },
     Setting: { screen: Setting },
+    QrCode: { screen: QrCode },
+    Github: { screen: Github },
+    User: { screen: User },
   },
   {
     initialRouteName: 'Tab',

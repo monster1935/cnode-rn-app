@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { MaterialDialog } from 'react-native-material-dialog';
 import { setToken, setUserInfo } from '../redux/actions';
 import Message from '../common/Message';
+import storage from '../utils/storage';
 
 class Login extends Component {
 
@@ -43,7 +44,16 @@ class Login extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props);
+    if (this.props.navigation.state.params) {
+      const { data } = this.props.navigation.state.params;
+      if (data !== this.state.token) {
+        this.setState({
+          token: data
+        }, () => {
+          console.log(this.state.token);
+        });
+      }
+    }
   }
 
   checkLogin() {
@@ -54,7 +64,6 @@ class Login extends Component {
   }
 
   onPressLogin() {
-    console.log('login press');
     this.checkLogin()
     .then(res => {
       const data = res.data;
@@ -65,10 +74,17 @@ class Login extends Component {
         }, () => {
           const { navigation, dispatch } = this.props;
           // 1. modify the global state
-          dispatch(setToken(this.state.token));
-          dispatch(setUserInfo(this.state.userInfo));
-          // 2. navigate to the previous screen
-          navigation.goBack();
+          dispatch(setUserInfo(this.state.userInfo, this.state.token));
+          // 2. save in storage
+          storage.save({
+            key: 'cnode',
+            data: {
+              token: this.state.token,
+              userInfo: this.state.userInfo,
+            },
+          });
+          // 3. navigate to the previous screen
+          navigation.navigate('Account');
         });
       }
     })
@@ -84,10 +100,16 @@ class Login extends Component {
 
   onPressQrLogin() {
     console.log('qr login');
+    // navigation to qrcode screen
+    const { navigation } = this.props;
+    navigation.navigate('QrCode');
+
   }
 
   onPressGitLogin() {
     console.log('github login');
+    const { navigation } = this.props;
+    navigation.navigate('Github');
   }
 
   onPressHelp() {
@@ -107,6 +129,7 @@ class Login extends Component {
               style={{height: 40}}
               placeholder="输入 Access Token"
               onChangeText={(token) => this.setState({token})}
+              value={this.state.token}
             />
           </View>
 

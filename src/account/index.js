@@ -24,7 +24,8 @@ class Account extends Component {
     headerStyle: {
       backgroundColor: '#343434',
     }
-  })
+  });
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -35,7 +36,15 @@ class Account extends Component {
 
   componentWillMount() {
     console.log('account component will mount');
-    console.log('account state: ', this.state);
+    console.log('account props');
+    console.log(this.props);
+    const { token, userInfo } = this.props;
+    if (this.state.token !== token) {
+      this.setState({
+        token,
+        userInfo,
+      });
+    }
   }
 
   componentDidMount() {
@@ -44,22 +53,28 @@ class Account extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('account component componentWillReceiveProps');
-    console.log('account props: ', nextProps);
-    if (nextProps.token !== this.state.token) {
+    console.log('nextProps: ', nextProps);
+    if (this.state.token !== nextProps) {
+      const { token, userInfo } = nextProps;
       this.setState({
-        userInfo: nextProps.userInfo,
-        token: nextProps.token,
+        token,
+        userInfo,
       });
     }
   }
 
   onPressToNavigation(type) {
-    this.props.navigation.navigate(type);
+    const { token }  = this.state;
+    if (token && type === 'Login') {
+      this.props.navigation.navigate('User');
+    } else {
+      this.props.navigation.navigate(type);
+    }
   }
 
   render() {
-    const { loginname, avatar_url } = this.state.userInfo;
+    const { loginname, avatar_url, id} = this.state.userInfo;
+    console.log(loginname, avatar_url);
     return (
       <View style={styles.container}>
         <View style={{backgroundColor: '#fff', marginTop: 10, marginBottom: 10, padding: 20, flexDirection: 'row'}}>
@@ -73,7 +88,7 @@ class Account extends Component {
           </TouchableNativeFeedback>
           <View style={{justifyContent: 'center'}}>
             <Text style={{marginBottom: 10, fontSize: 16}}>{loginname || '登录CNode社区，体验更多功能'}</Text>
-            <Text>点击头像登录</Text>
+            <Text>{ id ? `用户Id: ${id}`: '点击头像登录'}</Text>
           </View>
         </View>
         <View style={{backgroundColor: '#fff',paddingLeft: 20, paddingRight: 20, marginBottom: 20}}>
