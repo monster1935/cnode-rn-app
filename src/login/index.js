@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { MaterialDialog } from 'react-native-material-dialog';
-import { setToken, setUserInfo } from '../redux/actions';
+import { setUserInfo } from '../redux/actions';
 import Message from '../common/Message';
 import storage from '../utils/storage';
 
