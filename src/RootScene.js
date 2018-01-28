@@ -20,7 +20,7 @@ import Github from './github';
 import Setting from './setting';
 import About from './about';
 import User from './user';
-import storage from './util/storage';
+import storage from './utils/storage';
 import { setToken, setUserInfo } from './redux/actions';
 
 // 创建store 用于公共状态管理
