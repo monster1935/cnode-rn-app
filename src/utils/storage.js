@@ -1,5 +1,5 @@
 // Copyright (c) 2018 by monster1935. All Rights Reserved.
-// 本次持久存储
+// 本地持久存储
 import Storage from 'react-native-storage';
 import { AsyncStorage } from 'react-native';
 
