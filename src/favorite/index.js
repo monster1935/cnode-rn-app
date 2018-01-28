@@ -7,11 +7,14 @@ import {
   View,
   FlatList,
   TouchableNativeFeedback,
+  StyleSheet,
   Image,
 } from 'react-native';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
 import PostItem from '../home/PostItem';
+import getAuthInfo from '../utils/auth';
 
 class Favorite extends Component {
   constructor(props) {
@@ -19,6 +22,7 @@ class Favorite extends Component {
     this.state = {
       postList: [],
       isRefreshing: true,
+      token: '',
     };
   }
   static navigationOptions = ({navigation}) => ({
@@ -33,10 +37,29 @@ class Favorite extends Component {
     }
   })
   componentWillMount() {
-    this.getData();
+    console.log('Favorite will mount');
+    console.log(this.props);
+    const { token, userInfo } = this.props;
+    this.setState({
+      token,
+    });
+    if (token !== '') {
+      this.getData(userInfo.loginname);
+    }
   }
-  getData() {
-    axios.get('https://cnodejs.org/api/v1/topic_collect/alsotang').then(res => {
+  componentWillReceiveProps() {
+    console.log('Favorite will receive props');
+    const { token, userInfo } = this.props;
+    this.setState({
+      token,
+    });
+    if (token !== '') {
+      this.getData(userInfo.loginname);
+    }
+  }
+
+  getData(loginname) {
+    axios.get(`https://cnodejs.org/api/v1/topic_collect/${loginname}`).then(res => {
       const data = res.data;
       this.setState({
         isRefreshing: false,
@@ -68,19 +91,48 @@ class Favorite extends Component {
   )
 
   render() {
+    const { token } = this.state;
     return (
       <View style={{flex: 1,backgroundColor: '#eee'}}>
-        <FlatList
-          data={this.state.postList}
-          onRefresh={this.getData.bind(this)}
-          removeClippedSubviews={false}
-          refreshing={this.state.isRefreshing}
-          ListFooterComponent={() => <Text style={{textAlign: 'center', padding: 10, transform: [{scale: 0.857143}]}}>已加载全部数据</Text>}
-          renderItem={this.renderItem}
-        />
+        {
+          token === '' ?
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text>该模块需要登录账户</Text>
+            <TouchableNativeFeedback>
+              <View style={styles.btnLogin}>
+                <Text style={{color: '#eee'}}>去登录</Text>
+              </View>
+            </TouchableNativeFeedback>
+          </View>
+          :
+          <FlatList
+            data={this.state.postList}
+            onRefresh={this.getData.bind(this)}
+            removeClippedSubviews={false}
+            refreshing={this.state.isRefreshing}
+            ListFooterComponent={() => <Text style={{textAlign: 'center', padding: 10, transform: [{scale: 0.857143}]}}>已加载全部数据</Text>}
+            renderItem={this.renderItem}
+          />
+        }
       </View>
     )
   }
 };
 
-export default Favorite;
+const styles = StyleSheet.create({
+  btnLogin: {
+    height: 40,
+    width: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#343434',
+    marginTop: 20,
+  }
+});
+
+const mapStateToProps = ({ token, userInfo }) => ({
+    token,
+    userInfo,
+});
+
+export default connect(mapStateToProps)(Favorite);

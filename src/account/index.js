@@ -25,7 +25,7 @@ class Account extends Component {
       backgroundColor: '#343434',
     }
   });
-  
+
   constructor(props) {
     super(props);
     this.state = {
