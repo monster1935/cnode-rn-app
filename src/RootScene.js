@@ -25,7 +25,7 @@ import { setToken, setUserInfo } from './redux/actions';
 
 // 创建store 用于公共状态管理
 const store = createStore(reducer,{
-  token: '',
+  token: '123',
   userInfo: {},
 });
 
