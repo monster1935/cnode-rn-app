@@ -28,8 +28,6 @@ const store = createStore(reducer,{
   token: '',
   userInfo: {},
 });
-console.log(store.getState());
-
 
 // 读取登录token
 storage.load({

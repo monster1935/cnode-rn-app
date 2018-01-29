@@ -49,8 +49,6 @@ class Login extends Component {
       if (data !== this.state.token) {
         this.setState({
           token: data
-        }, () => {
-          console.log(this.state.token);
         });
       }
     }
@@ -99,7 +97,6 @@ class Login extends Component {
   }
 
   onPressQrLogin() {
-    console.log('qr login');
     // navigation to qrcode screen
     const { navigation } = this.props;
     navigation.navigate('QrCode');
@@ -107,7 +104,6 @@ class Login extends Component {
   }
 
   onPressGitLogin() {
-    console.log('github login');
     const { navigation } = this.props;
     navigation.navigate('Github');
   }

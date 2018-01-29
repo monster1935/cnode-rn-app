@@ -37,8 +37,6 @@ class Favorite extends Component {
     }
   })
   componentWillMount() {
-    console.log('Favorite will mount');
-    console.log(this.props);
     const { token, userInfo } = this.props;
     this.setState({
       token,
@@ -47,9 +45,8 @@ class Favorite extends Component {
       this.getData(userInfo.loginname);
     }
   }
-  componentWillReceiveProps() {
-    console.log('Favorite will receive props');
-    const { token, userInfo } = this.props;
+  componentWillReceiveProps(nextProps) {
+    const { token, userInfo } = nextProps;
     this.setState({
       token,
     });
@@ -90,6 +87,12 @@ class Favorite extends Component {
     </TouchableNativeFeedback>
   )
 
+  handleLoginPress() {
+    // navigate to Login screen
+    const { navigation } = this.props;
+    navigation.navigate('Login');
+  }
+
   render() {
     const { token } = this.state;
     return (
@@ -98,7 +101,7 @@ class Favorite extends Component {
           token === '' ?
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <Text>该模块需要登录账户</Text>
-            <TouchableNativeFeedback>
+            <TouchableNativeFeedback onPress={this.handleLoginPress.bind(this)}>
               <View style={styles.btnLogin}>
                 <Text style={{color: '#eee'}}>去登录</Text>
               </View>
