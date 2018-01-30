@@ -50,7 +50,7 @@ class PostList extends Component {
       params: {
         ...param,
         tab: type === 'all' ? '' : type,
-        mdrender: false,
+        mdrender: true,
       }
     });
   }

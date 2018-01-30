@@ -5,6 +5,8 @@ import { Image, Text, View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import HTMLView from 'react-native-htmlview';
+import PostStyle from './PostStyle';
 
 const styles = StyleSheet.create({
   container: {
@@ -33,6 +35,27 @@ class CommentItem extends Component {
       reply: this.props.reply,
     });
   }
+
+  renderNode(node,index) {
+    if (node.name == 'img') {
+      const { src } = node.attribs;
+      let uri = src;
+      if (!src.includes('http')) {
+        uri = 'http:' + src;
+      }
+      return (
+        <Image
+          source={{uri: uri}}
+          key={index}
+          style={{width: 600, height: 200, flex: 1, flexDirection: 'row' }}
+          resizeMode='stretch'
+        >
+        </Image>
+
+      )
+    }
+  }
+
   render() {
     const { reply }  = this.state;
     return (
@@ -47,11 +70,8 @@ class CommentItem extends Component {
           >
             {reply.author.loginname}
           </Text>
-          <Text
-            style={{fontSize: 14, marginBottom: 6}}
-          >
-            {reply.content}
-          </Text>
+          <HTMLView value={reply.content} stylesheet={PostStyle} renderNode={this.renderNode}>
+          </HTMLView>
           <View
             style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}
           >

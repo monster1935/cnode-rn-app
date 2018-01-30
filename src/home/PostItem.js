@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, Image} from 'react-native';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import HTMLView from 'react-native-htmlview';
+import PostStyle from './PostStyle';
 
 class PostItem extends Component {
   constructor(props) {
@@ -22,10 +24,33 @@ class PostItem extends Component {
     });
   }
 
+  getPreContent(content) {
+    const len = content.length, start = content.indexOf('<p>') + 3,
+          end = content.indexOf('</p>') - 4;
+    return content.substring(start, end);
+  }
+
+  renderNode(node,index,list,parent,domToElement) {
+    if (node.name === 'img') {
+      return <Text key={index}>[图片]</Text>;
+    }
+  }
+
+  getPreContent() {
+    const { item } = this.state;
+    const { content } = item;
+    const len = content.length,
+          start = content.indexOf('<p>'),
+          end = content.indexOf('</p>') + 4;
+    return content.substring(start,end);
+  }
+
+
   render() {
     const { item } = this.state;
     const createTime = moment(item.create_at).fromNow();
-    const replyTime = moment(item.last_reply_at).fromNow()
+    const replyTime = moment(item.last_reply_at).fromNow();
+
     return (
       <View style={styles.container}>
         <View style={{flex: 1, flexDirection: 'row'}}>
@@ -39,11 +64,12 @@ class PostItem extends Component {
         </View>
         <View style={{marginBottom: 6}}>
           <Text
-            style={{color: '#333', marginTop: 6, marginBottom: 6, fontSize: 14}}
+            style={{color: '#000', marginTop: 6, marginBottom: 6, fontSize: 16}}
           >
             {item.title}
           </Text>
-          <Text style={{ fontSize: 12}}>{item.content.substring(0,100)}</Text>
+          <HTMLView value={this.getPreContent()} stylesheet={PostStyle} renderNode={this.renderNode}>
+          </HTMLView>
         </View>
         <View>
           <Text style={{ fontSize: 12}}>

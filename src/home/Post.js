@@ -15,7 +15,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import HTMLView from '../common/HTMLView';
+import PostStyle from './PostStyle';
 import Comment from './Comment';
+import CommonView from '../common/CommonView';
 
 const styles = StyleSheet.create(
   {
@@ -24,12 +27,17 @@ const styles = StyleSheet.create(
       backgroundColor: '#eee',
     },
     block: {
+      flex: 1,
       backgroundColor: '#fff',
       padding: 10,
     },
-
+    h1: {
+      fontSize: 16
+    }
   }
 );
+
+
 
 class Post extends Component {
 
@@ -75,7 +83,7 @@ class Post extends Component {
     const { id } = this.state;
     axios.get(`https://cnodejs.org/api/v1/topic/${id}`,{
       params: {
-        mdrender: false,
+        mdrender: true,
       }
     }).then((res) => {
       if (res.status == 200) {
@@ -89,6 +97,32 @@ class Post extends Component {
     }).catch(e => {
       console.error(e);
     });
+  }
+
+  renderNode(node, index, siblings, parent, defaultRenderer) {
+    if (node.name == 'img') {
+      const { src } = node.attribs;
+      let uri = src;
+      if (!src.includes('http')) {
+        uri = 'http:' + src;
+      }
+      return (
+        <Image
+          source={{uri: uri}}
+          key={index}
+          style={{width: Dimensions.get('window').width-20, height: 200, flex: 1, flexDirection: 'row' }}
+          resizeMode='contain'
+        >
+        </Image>
+      )
+    }
+    if (node.name === 'pre') {
+      return (
+        <View key={index} style={{ backgroundColor: '#eee', padding: 10, borderRadius: 4}}>
+          {defaultRenderer(node.children, parent)}
+        </View>
+      )
+    }
   }
 
   render() {
@@ -132,7 +166,12 @@ class Post extends Component {
           </View>
         </View>
         <View style={styles.block}>
-          <Text style={{fontSize: 14}}>{content}</Text>
+          <HTMLView
+            value={content}
+            style={{flex:1}}
+            stylesheet={PostStyle}
+            renderNode={this.renderNode}
+          />
         </View>
         <View>
           <Comment replies={postInfo.replies}></Comment>
