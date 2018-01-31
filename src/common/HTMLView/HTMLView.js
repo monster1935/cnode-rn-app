@@ -17,7 +17,7 @@ const baseStyles = StyleSheet.create({
   pre: codeStyle,
   code: codeStyle,
   a: {
-    fontWeight: '500',
+    fontWeight: '300',
     color: '#007AFF',
   },
   h1: {fontWeight: '500', fontSize: 36},

@@ -167,9 +167,7 @@ class Post extends Component {
         </View>
         <View style={styles.block}>
           <HTMLView
-            value={content}
-            style={{flex:1}}
-            stylesheet={PostStyle}
+            value={content}2
             renderNode={this.renderNode}
           />
         </View>

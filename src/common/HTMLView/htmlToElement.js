@@ -7,14 +7,10 @@ import AutoSizedImage from './AutoSizedImage';
 
 const defaultOpts = {
   lineBreak: '\n',
-  paragraphBreak: '\n\n',
-  bullet: '\u2022 ',
+  paragraphBreak: '\n',
+  bullet: '\u2022',
   TextComponent: Text,
-  textComponentProps: {
-    style: {
-      fontSize: 14,
-    }
-  },
+  textComponentProps: null,
   NodeComponent: View,
   nodeComponentProps: null,
 };
@@ -112,8 +108,8 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
             if (index < list.length - 1) {
               linebreakAfter = opts.paragraphBreak;
             }
+            case 'br':
             break;
-          case 'br':
           case 'h1':
           case 'h2':
           case 'h3':
@@ -128,13 +124,16 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
         if (node.name === 'li') {
           const defaultStyle = opts.textComponentProps ? opts.textComponentProps.style : null;
           const customStyle = inheritedStyle(parent);
-
+          const spStyle = {
+            marginLeft: 10,
+            marginRight: 10,
+          };
           if (parent.name === 'ol') {
-            listItemPrefix = (<TextComponent style={[defaultStyle, customStyle]}>
+            listItemPrefix = (<TextComponent style={[defaultStyle, customStyle,spStyle]}>
               {`${orderedListCounter++}. `}
             </TextComponent>);
           } else if (parent.name === 'ul') {
-            listItemPrefix = (<TextComponent style={[defaultStyle, customStyle]}>
+            listItemPrefix = (<TextComponent style={[defaultStyle, customStyle,spStyle]}>
               {opts.bullet}
             </TextComponent>);
           }
@@ -154,10 +153,12 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
             onLongPress={linkLongPressHandler}
           >
 
-            <Text>{linebreakBefore}</Text>
-            {listItemPrefix}
-            {domToElement(node.children, node)}
-            <Text>{linebreakAfter}</Text>
+            <View style={{flexDirection: 'row'}}>
+              {listItemPrefix}
+              <View>
+                {domToElement(node.children, node)}
+              </View>
+            </View>
 
           </NodeComponent>
         );
