@@ -13,9 +13,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { MaterialDialog } from 'react-native-material-dialog';
-import { setUserInfo } from '../redux/actions';
+import { setUserInfo } from '../../redux/actions';
 import Message from '../common/Message';
-import storage from '../utils/storage';
+import storage from '../../utils/storage';
 
 class Login extends Component {
 
@@ -175,10 +175,12 @@ class Login extends Component {
         <MaterialDialog
           title="提示"
           visible={this.state.helpVis}
+          cancelLabel="取消"
+          okLabel="确定"
           onOk={() => this.setState({ helpVis: false})}
           onCancel={() => this.setState({ helpVis: false})}
         >
-          <Text>
+          <Text style={{fontSize: 16}}>
             {this.state.helpText}
           </Text>
         </MaterialDialog>

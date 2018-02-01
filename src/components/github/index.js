@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  StyleSheet,
 } from 'react-native';
 
 class Github extends Component {
@@ -22,11 +23,20 @@ class Github extends Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
-        <Text>est</Text>
+      <View style={styles.container}>
+        <Text>开发中，敬请期待...</Text>
       </View>
     )
   }
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#eee',
+  }
+});
 
 export default Github;

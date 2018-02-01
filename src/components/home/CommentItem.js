@@ -1,11 +1,12 @@
 // Copyright (c) 2018 by monster1935. All Rights Reserved.
 // 评论区单条评论组件
 import React, { Component } from 'react';
-import { Image, Text, View, StyleSheet } from 'react-native';
+import { Image, Text, View, StyleSheet, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import HTMLView from 'react-native-htmlview';
+import InlineImage from '../common/InlineImage';
 import PostStyle from './PostStyle';
 
 const styles = StyleSheet.create({
@@ -43,15 +44,14 @@ class CommentItem extends Component {
       if (!src.includes('http')) {
         uri = 'http:' + src;
       }
+      const { width } = Dimensions.get('window');
       return (
-        <Image
+        <InlineImage
           source={{uri: uri}}
           key={index}
-          style={{width: 600, height: 200, flex: 1, flexDirection: 'row' }}
-          resizeMode='stretch'
-        >
-        </Image>
-
+          style={{width: width - 30, height: 200}}
+          resizeMode='cover'
+        />
       )
     }
   }

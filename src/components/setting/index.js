@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import { MaterialDialog } from 'react-native-material-dialog';
 import { connect } from 'react-redux';
-import storage from '../utils/storage';
-import { setToken, setUserInfo } from '../redux/actions';
+import storage from '../../utils/storage';
+import { setToken, setUserInfo } from '../../redux/actions';
 
 class Setting extends Component {
 

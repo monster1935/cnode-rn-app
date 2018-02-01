@@ -8,18 +8,18 @@ import { createStore } from 'redux';
 import reducer from './redux/reducer';
 
 
-import Home from './home';
-import Favorite from './favorite';
-import Publish from './add';
-import Message from './messages';
-import Account from './account';
-import Post from './home/Post';
-import Login from './login';
-import QrCode from './qrcode';
-import Github from './github';
-import Setting from './setting';
-import About from './about';
-import User from './user';
+import Home from './components/home';
+import Favorite from './components/favorite';
+import Message from './components/messages';
+import Account from './components/account';
+import Post from './components/home/Post';
+import Login from './components/login';
+import QrCode from './components/qrcode';
+import Github from './components/github';
+import Setting from './components/setting';
+import About from './components/about';
+import User from './components/user';
+import SelfInfo from './components/account/SelfInfo';
 import storage from './utils/storage';
 import { setToken, setUserInfo } from './redux/actions';
 
@@ -121,6 +121,7 @@ const BasicApp = StackNavigator(
     QrCode: { screen: QrCode },
     Github: { screen: Github },
     User: { screen: User },
+    SelfInfo: { screen: SelfInfo }
   },
   {
     initialRouteName: 'Tab',

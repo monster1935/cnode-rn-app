@@ -14,7 +14,7 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import PostItem from '../home/PostItem';
-import getAuthInfo from '../utils/auth';
+import getAuthInfo from '../../utils/auth';
 
 class Favorite extends Component {
   constructor(props) {
@@ -23,6 +23,7 @@ class Favorite extends Component {
       postList: [],
       isRefreshing: true,
       token: '',
+      loginname: '',
     };
   }
   static navigationOptions = ({navigation}) => ({
@@ -40,6 +41,7 @@ class Favorite extends Component {
     const { token, userInfo } = this.props;
     this.setState({
       token,
+      loginname: userInfo.loginname,
     });
     if (token !== '') {
       this.getData(userInfo.loginname);
@@ -49,6 +51,7 @@ class Favorite extends Component {
     const { token, userInfo } = nextProps;
     this.setState({
       token,
+      loginname: userInfo.loginname,
     });
     if (token !== '') {
       this.getData(userInfo.loginname);
@@ -56,6 +59,7 @@ class Favorite extends Component {
   }
 
   getData(loginname) {
+    console.log('loginname: ',loginname);
     axios.get(`https://cnodejs.org/api/v1/topic_collect/${loginname}`).then(res => {
       const data = res.data;
       this.setState({
@@ -94,7 +98,7 @@ class Favorite extends Component {
   }
 
   render() {
-    const { token } = this.state;
+    const { token, loginname } = this.state;
     return (
       <View style={{flex: 1,backgroundColor: '#eee'}}>
         {
@@ -110,7 +114,7 @@ class Favorite extends Component {
           :
           <FlatList
             data={this.state.postList}
-            onRefresh={this.getData.bind(this)}
+            onRefresh={this.getData.bind(this,loginname)}
             removeClippedSubviews={false}
             refreshing={this.state.isRefreshing}
             ListFooterComponent={() => <Text style={{textAlign: 'center', padding: 10, transform: [{scale: 0.857143}]}}>已加载全部数据</Text>}

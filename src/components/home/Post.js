@@ -15,10 +15,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import HTMLView from '../common/HTMLView';
+import HTMLView from 'react-native-htmlview';
 import PostStyle from './PostStyle';
 import Comment from './Comment';
-import CommonView from '../common/CommonView';
+import InlineImage from '../common/InlineImage';
 
 const styles = StyleSheet.create(
   {
@@ -106,21 +106,14 @@ class Post extends Component {
       if (!src.includes('http')) {
         uri = 'http:' + src;
       }
+      const { width } = Dimensions.get('window');
       return (
-        <Image
+        <InlineImage
           source={{uri: uri}}
           key={index}
-          style={{width: Dimensions.get('window').width-20, height: 200, flex: 1, flexDirection: 'row' }}
-          resizeMode='contain'
-        >
-        </Image>
-      )
-    }
-    if (node.name === 'pre') {
-      return (
-        <View key={index} style={{ backgroundColor: '#eee', padding: 10, borderRadius: 4}}>
-          {defaultRenderer(node.children, parent)}
-        </View>
+          style={{width: width - 30, height: 200}}
+          resizeMode='cover'
+        />
       )
     }
   }
@@ -167,7 +160,9 @@ class Post extends Component {
         </View>
         <View style={styles.block}>
           <HTMLView
-            value={content}2
+            value={content}
+            stylesheet={PostStyle}
+            textComponentProps={{style: {flex: 1}}}
             renderNode={this.renderNode}
           />
         </View>

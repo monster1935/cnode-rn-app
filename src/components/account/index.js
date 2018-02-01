@@ -35,9 +35,6 @@ class Account extends Component {
   }
 
   componentWillMount() {
-    console.log('account component will mount');
-    console.log('account props');
-    console.log(this.props);
     const { token, userInfo } = this.props;
     if (this.state.token !== token) {
       this.setState({
@@ -47,13 +44,8 @@ class Account extends Component {
     }
   }
 
-  componentDidMount() {
-    console.log('account component did mount');
-    console.log('account state: ', this.state);
-  }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps: ', nextProps);
     if (this.state.token !== nextProps) {
       const { token, userInfo } = nextProps;
       this.setState({
@@ -64,11 +56,11 @@ class Account extends Component {
   }
 
   onPressToNavigation(type) {
-    const { token }  = this.state;
+    const { token, userInfo }  = this.state;
     if (token && type === 'Login') {
-      this.props.navigation.navigate('User');
+      this.props.navigation.navigate('SelfInfo', {userInfo});
     } else {
-      this.props.navigation.navigate(type);
+      this.props.navigation.navigate(type,);
     }
   }
 
@@ -87,8 +79,8 @@ class Account extends Component {
             </View>
           </TouchableNativeFeedback>
           <View style={{justifyContent: 'center'}}>
-            <Text style={{marginBottom: 10, fontSize: 16}}>{loginname || '登录CNode社区，体验更多功能'}</Text>
-            <Text>{ id ? `用户Id: ${id}`: '点击头像登录'}</Text>
+            <Text style={{marginBottom: 10, fontSize: 16}}>{id ? 'CNode: Node.js 专业中文社区' : '登录CNode社区，体验更多功能'}</Text>
+            <Text>{ loginname ? loginname: '点击头像登录'}</Text>
           </View>
         </View>
         <View style={{backgroundColor: '#fff',paddingLeft: 20, paddingRight: 20, marginBottom: 20}}>

@@ -11,10 +11,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import messagesJson from '../assets/json/messages.json';
 import MsgItem from './MsgItem';
-
-const dev = true;
 
 class Messages extends Component {
   constructor(props) {
@@ -67,35 +64,25 @@ class Messages extends Component {
   }
 
   getData(token) {
-    if (dev) {
-      const { has_read_messages, hasnot_read_messages} = messagesJson.data;
-      const msgs = this.getFormatValue( has_read_messages.concat(hasnot_read_messages));
-      console.log('msgs: ', msgs);
+    axios.get('https://cnodejs.org/api/v1/messages', {
+      params: {
+        accesstoken: token,
+      }
+    }).then(res => {
       this.setState({
-        msgs,
         isRefreshing: false,
       });
-    } else {
-      axios.get('https://cnodejs.org/api/v1/messages', {
-        params: {
-          accesstoken: token,
-        }
-      }).then(res => {
+      const data = res.data;
+      if (res.status === 200) {
+        const { has_read_messages, hasnot_read_messages } = data.data;
+        const msgs = this.getFormatValue( has_read_messages.concat(hasnot_read_messages));
         this.setState({
-          isRefreshing: false,
+          msgs,
         });
-        const data = res.data;
-        if (res.status === 200) {
-          const msgs = this.getFormatValue( has_read_messages.concat(hasnot_read_messages));
-          this.setState({
-            msgs,
-          });
-        } else {
-          console.warn(res.statusText);
-        }
-      });
-    }
-
+      } else {
+        console.warn(res.statusText);
+      }
+    });
   }
 
   handleLoginPress () {
@@ -105,7 +92,6 @@ class Messages extends Component {
   }
 
   renderItem({item, index}) {
-    console.log(item);
     return (
       <View style={{flex: 1}}>
         <MsgItem item={item} index={index} />
@@ -114,7 +100,7 @@ class Messages extends Component {
   }
 
   render() {
-    const { token,} = this.state;
+    const { token} = this.state;
     return (
       <View style={{flex: 1, backgroundColor: '#eee'}}>
         {
@@ -131,7 +117,7 @@ class Messages extends Component {
           <View style={{flex: 1}}>
             <FlatList
               data={this.state.msgs}
-              onRefresh={this.getData.bind(this)}
+              onRefresh={this.getData.bind(this, token)}
               removeClippedSubviews={false}
               refreshing={this.state.isRefreshing}
               ListFooterComponent={() => <Text style={{textAlign: 'center', padding: 10, transform: [{scale: 0.857143}]}}>已加载全部数据</Text>}
