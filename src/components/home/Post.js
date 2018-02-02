@@ -9,7 +9,8 @@ import {
   View,
   Button,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableNativeFeedback,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
@@ -99,6 +100,13 @@ class Post extends Component {
     });
   }
 
+  // 头像点击导航
+  onPressToUser() {
+    const { navigation } = this.props;
+    const { loginname } = this.state.postInfo.author;
+    navigation.navigate('User', {loginname});
+  }
+
   renderNode(node, index, siblings, parent, defaultRenderer) {
     if (node.name == 'img') {
       const { src } = node.attribs;
@@ -132,10 +140,14 @@ class Post extends Component {
           <View
             style={styles.block,{flexDirection: 'row', alignItems: 'center'}}
           >
-            <Image
-              source={{uri: author && author.avatar_url}}
-              style={{width: 30, height: 30, borderRadius: 10, marginRight: 10}}
-            />
+            <TouchableNativeFeedback onPress={this.onPressToUser.bind(this)}>
+              <View>
+                <Image
+                  source={{uri: author && author.avatar_url}}
+                  style={{width: 30, height: 30, borderRadius: 10, marginRight: 10}}
+                />
+              </View>
+            </TouchableNativeFeedback>
             <View>
               <Text
                 style={{fontSize: 12, color: '#333'}}
