@@ -13,7 +13,6 @@ import 'moment/locale/zh-cn';
 class ReplyItem extends Component {
 
   render() {
-    console.log('replyItems: ', this.props);
     const { title, last_reply_at, author } = this.props.data;
     const createTime = moment(last_reply_at).fromNow();
     return (
