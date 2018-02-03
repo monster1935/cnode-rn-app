@@ -21,7 +21,7 @@ class PageHeader extends Component {
       <View style={styles.container}>
         <TouchableNativeFeedback onPress={() => navigation.goBack()}>
           <View style={{paddingLeft: 20}}>
-            <Icon name="ios-arrow-back" size={25} color='#fff' />
+            <Icon name="md-arrow-back" size={25} color='#fff' />
           </View>
         </TouchableNativeFeedback>
       </View>
