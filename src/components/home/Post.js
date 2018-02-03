@@ -144,7 +144,7 @@ class Post extends Component {
               <View>
                 <Image
                   source={{uri: author && author.avatar_url}}
-                  style={{width: 30, height: 30, borderRadius: 10, marginRight: 10}}
+                  style={{width: 30, height: 30, borderRadius: 50, marginRight: 10}}
                 />
               </View>
             </TouchableNativeFeedback>
@@ -179,7 +179,7 @@ class Post extends Component {
           />
         </View>
         <View>
-          <Comment replies={postInfo.replies}></Comment>
+          <Comment replies={postInfo.replies} navigation={this.props.navigation}></Comment>
         </View>
       </ScrollView>
     );

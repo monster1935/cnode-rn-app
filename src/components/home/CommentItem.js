@@ -1,11 +1,19 @@
 // Copyright (c) 2018 by monster1935. All Rights Reserved.
 // 评论区单条评论组件
 import React, { Component } from 'react';
-import { Image, Text, View, StyleSheet, Dimensions } from 'react-native';
+import {
+  Image,
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableNativeFeedback,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import HTMLView from 'react-native-htmlview';
+import { connect } from 'react-redux';
 import InlineImage from '../common/InlineImage';
 import PostStyle from './PostStyle';
 
@@ -56,42 +64,52 @@ class CommentItem extends Component {
     }
   }
 
+  // navigate to user detail
+  handlePressToUser(loginname) {
+    const { navigation } = this.props;
+    navigation.navigate('User', {loginname});
+  }
+
   render() {
     const { reply }  = this.state;
     return (
       <View style={styles.container}>
-        <Image
-          source={{'uri': reply.author.avatar_url}}
-          style={styles.avatar}
-        />
-      <View style={{flex: 1, borderBottomWidth: 1, borderBottomColor: '#eee'}}>
-          <Text
-            style={{fontSize: 12, color: '#333', marginBottom: 6}}
-          >
-            {reply.author.loginname}
-          </Text>
-          <HTMLView value={reply.content} stylesheet={PostStyle} renderNode={this.renderNode}>
-          </HTMLView>
-          <View
-            style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}
-          >
+        <TouchableNativeFeedback onPress={() => this.handlePressToUser(reply.author.loginname)}>
+          <View>
+            <Image
+              source={{'uri': reply.author.avatar_url}}
+              style={styles.avatar}
+            />
+          </View>
+        </TouchableNativeFeedback>
+        <View style={{flex: 1, borderBottomWidth: 1, borderBottomColor: '#eee'}}>
             <Text
-              style={{fontSize: 12}}
+              style={{fontSize: 12, color: '#333', marginBottom: 6}}
             >
-              {moment(reply.create_at).fromNow()}
+              {reply.author.loginname}
             </Text>
+            <HTMLView value={reply.content} stylesheet={PostStyle} renderNode={this.renderNode}>
+            </HTMLView>
             <View
-              style={{flexDirection: 'row', marginBottom: 6}}
+              style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}
             >
-              <Icon name="md-thumbs-up" size={16} color={'#ccc'}></Icon>
               <Text
-                style={{marginLeft: 6,fontSize: 12, color: '#ccc'}}
+                style={{fontSize: 12}}
               >
-                {reply.ups.length}
+                {moment(reply.create_at).fromNow()}
               </Text>
+              <View
+                style={{flexDirection: 'row', marginBottom: 6}}
+              >
+                <Icon name="md-thumbs-up" size={16} color={'#ccc'}></Icon>
+                <Text
+                  style={{marginLeft: 6,fontSize: 12, color: '#ccc'}}
+                >
+                  {reply.ups.length}
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
       </View>
     )
   }

@@ -58,7 +58,7 @@ class Comment extends Component {
               <View style={styles.comment}>
                 {
                   goodReplies.map((reply,index) => {
-                    return (<CommentItem key={index} reply={reply} />);
+                    return (<CommentItem key={index} reply={reply} navigation={this.props.navigation}/>);
                   })
                 }
               </View>
@@ -72,7 +72,7 @@ class Comment extends Component {
           <View style={styles.comment}>
             {
               commonReplies.length ? commonReplies.map((reply,index) => {
-                  return (<CommentItem key={index} reply={reply} />);
+                  return (<CommentItem key={index} reply={reply} navigation={this.props.navigation} />);
                 }) : null
 
             }
