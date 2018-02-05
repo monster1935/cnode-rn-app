@@ -94,22 +94,29 @@ class WebContainer extends Component {
   }
 
   handleLoadStart() {
+    this.setState({
+      loading: true,
+      progress: 0,
+    });
     const { progress } = this.state;
     timer = setInterval(() => {
       if (progress > 1) {
         this.setState({progress: 1});
         clearInterval(timer);
       } else {
-        this.setState({
-          progress: progress + 0.3
-        })
+        this.setState((nextState) => {
+          return {
+            progress: nextState.progress + Math.random() * 0.5
+          }
+        });
       }
     }, 200);
   }
 
   handleLoadEnd() {
-    this.setState({progress: 1});
-    this.setState({loading: false});
+    this.setState({progress: 1},() => {
+      this.setState({loading: false});
+    });
     clearInterval(timer);
   }
 
