@@ -70,6 +70,20 @@ class CommentItem extends Component {
     navigation.navigate('User', {loginname});
   }
 
+  // a 标签 link处理，app内部webview渲染html
+  handlePressLink(url) {
+    const { navigation } = this.props;
+    const res = url.match(/\/user\//);
+    if (res && res.index === 0) {
+      // eg: /user/coldraincn 跳转用户详情
+      const loginname = url.split('/')[2];
+      navigation.navigate('User', { loginname })
+    } else {
+      // 跳转到webview 渲染具体的html
+      navigation.navigate('WebContainer', { url });
+    }
+  }
+
   render() {
     const { reply }  = this.state;
     return (
@@ -88,8 +102,12 @@ class CommentItem extends Component {
             >
               {reply.author.loginname}
             </Text>
-            <HTMLView value={reply.content} stylesheet={PostStyle} renderNode={this.renderNode}>
-            </HTMLView>
+            <HTMLView
+              value={reply.content}
+              stylesheet={PostStyle}
+              renderNode={this.renderNode}
+              onLinkPress={(url) => this.handlePressLink(url)}
+            />
             <View
               style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}
             >

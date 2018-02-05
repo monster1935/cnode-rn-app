@@ -126,6 +126,20 @@ class Post extends Component {
     }
   }
 
+  // a 标签 link处理，app内部webview渲染html
+  handlePressLink(url) {
+    const { navigation } = this.props;
+    const res = url.match(/\/user\//);
+    if (res && res.index === 0) {
+      // eg: /user/coldraincn 跳转用户详情
+      const loginname = url.split('/')[2];
+      navigation.navigate('User', { loginname })
+    } else {
+      // 跳转到webview 渲染具体的html
+      navigation.navigate('WebContainer', { url });
+    }
+  }
+
   render() {
     const { postInfo, tab, author, content, title, visit_count, create_at} = this.state;
     const createTime = moment(create_at).fromNow();
@@ -176,6 +190,7 @@ class Post extends Component {
             stylesheet={PostStyle}
             textComponentProps={{style: {flex: 1}}}
             renderNode={this.renderNode}
+            onLinkPress={(url) => this.handlePressLink(url)}
           />
         </View>
         <View>

@@ -67,13 +67,9 @@ class User extends Component {
     if (!url) {
       return;
     }
-    Linking.canOpenURL(url).then(supported => {
-      if (!supported) {
-        console.log('Can\'t handle url: ' + url);
-      } else {
-        return Linking.openURL(url);
-      }
-    }).catch(err => console.error('An error occurred', err));
+    // 改为app内部 webview 渲染 html
+    const { navigation } = this.props;
+    navigation.navigate('WebContainer', {url: url});
   }
 
   renderHeader() {
