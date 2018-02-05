@@ -20,6 +20,7 @@ import Setting from './components/setting';
 import About from './components/about';
 import User from './components/user';
 import SelfInfo from './components/account/SelfInfo';
+import WebContainer from './components/webcontainer';
 import storage from './utils/storage';
 import { setToken, setUserInfo } from './redux/actions';
 
@@ -121,7 +122,8 @@ const BasicApp = StackNavigator(
     QrCode: { screen: QrCode },
     Github: { screen: Github },
     User: { screen: User },
-    SelfInfo: { screen: SelfInfo }
+    SelfInfo: { screen: SelfInfo },
+    WebContainer: { screen: WebContainer },
   },
   {
     initialRouteName: 'Tab',
