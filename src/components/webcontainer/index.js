@@ -7,11 +7,16 @@ import {
   WebView,
   Linking,
   TouchableNativeFeedback,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ActionSheet from 'react-native-actionsheet';
+import * as Progress from 'react-native-progress';
 
+
+const windowWidth = Dimensions.get('window').width;
 const options = [ '刷新', '在浏览器中打开' ];
+const timer = null;
 
 class WebContainer extends Component {
 
@@ -49,6 +54,8 @@ class WebContainer extends Component {
     super(props);
     this.state = {
       url: '',
+      progress: 0,
+      loading: true,
     }
   }
 
@@ -86,15 +93,54 @@ class WebContainer extends Component {
     }
   }
 
+  handleLoadStart() {
+    const { progress } = this.state;
+    timer = setInterval(() => {
+      if (progress > 1) {
+        this.setState({progress: 1});
+        clearInterval(timer);
+      } else {
+        this.setState({
+          progress: progress + 0.3
+        })
+      }
+    }, 200);
+  }
+
+  handleLoadEnd() {
+    this.setState({progress: 1});
+    this.setState({loading: false});
+    clearInterval(timer);
+  }
+
   render() {
-    const { url } = this.state;
+    const { url, progress, loading } = this.state;
     return (
       <View style={{flex: 1,}}>
+        {
+          loading ?
+          (
+            <Progress.Bar
+              progress={progress}
+              width={windowWidth}
+              borderRadius={0}
+              borderWidth={0}
+              height={4}
+            />
+          )
+          :
+          (
+            null
+          )
+        }
         <WebView
           ref={o => this.webview = o}
           source={{uri: url}}
           startInLoadingState={true}
-        />
+          onLoadStart={this.handleLoadStart.bind(this)}
+          onLoadEnd={this.handleLoadEnd.bind(this)}
+        >
+        </WebView>
         <ActionSheet
           ref={ o => this.ActionSheet = o }
           options={options}
