@@ -16,12 +16,11 @@ class PageHeader extends Component {
 
   render() {
     const { navigation } = this.props;
-    console.log('navigation: ', navigation);
     return (
       <View style={styles.container}>
         <TouchableNativeFeedback onPress={() => navigation.goBack()}>
-          <View style={{paddingLeft: 20}}>
-            <Icon name="md-arrow-back" size={25} color='#fff' />
+          <View style={{width: 50, alignItems: 'center', height: '100%', justifyContent: 'center',}}>
+            <Icon name="md-arrow-back" size={25} color='#FEFEFE' />
           </View>
         </TouchableNativeFeedback>
       </View>
