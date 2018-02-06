@@ -56,3 +56,5 @@ react-native run-android
 待上传
 
 ### 最后
+
+该项目为个人学习 react-native 的 Demo, 欢迎技术交流。
