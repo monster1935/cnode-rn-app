@@ -59,7 +59,11 @@ class Favorite extends Component {
   }
 
   getData(loginname) {
-    axios.get(`https://cnodejs.org/api/v1/topic_collect/${loginname}`).then(res => {
+    axios.get(`https://cnodejs.org/api/v1/topic_collect/${loginname}`, {
+      params: {
+        mdrender: false,
+      }
+    }).then(res => {
       const data = res.data;
       this.setState({
         isRefreshing: false,

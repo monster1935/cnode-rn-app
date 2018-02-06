@@ -49,6 +49,10 @@ class Login extends Component {
       if (data !== this.state.token) {
         this.setState({
           token: data
+        }, () => {
+          if (data) {
+            this.onPressLogin();
+          }
         });
       }
     }

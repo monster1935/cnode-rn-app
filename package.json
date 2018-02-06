@@ -16,6 +16,7 @@
     "react-native": "0.51.0",
     "react-native-actionsheet": "^2.3.0",
     "react-native-camera": "^0.13.0",
+    "react-native-easy-toast": "^1.0.9",
     "react-native-htmlview": "^0.12.1",
     "react-native-material-dialog": "^0.7.4",
     "react-native-progress": "^3.4.0",

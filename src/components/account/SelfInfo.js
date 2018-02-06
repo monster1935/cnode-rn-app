@@ -76,9 +76,9 @@ class SelfInfo extends Component {
           <Text style={styles.listLabel}>登录ID</Text>
           <Text>{id}</Text>
         </View>
-        <View style={[styles.listItem, styles.btnLogin]}>
+        <View>
           <TouchableNativeFeedback onPress={this.handleLogout.bind(this)}>
-            <View>
+            <View style={[styles.listItem, styles.btnLogin]}>
               <Text style={{color: 'red', fontSize: 16}}>退出帐号</Text>
             </View>
           </TouchableNativeFeedback>

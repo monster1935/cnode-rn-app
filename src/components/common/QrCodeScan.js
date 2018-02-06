@@ -40,7 +40,6 @@ class QrCodeScan extends Component {
   onBarCodeRead = (result) => {
     const { data } = result;
     if (this.token === '' || this.token !== data) {
-      console.log('扫码成功！~ 跳转');
       this.token = data;
       this.props.navigation.navigate('Login', {data});
     }

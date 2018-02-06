@@ -14,10 +14,13 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import axios from 'axios';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { MaterialDialog } from 'react-native-material-dialog';
 import HTMLView from 'react-native-htmlview';
+import Toast, { DURATION } from 'react-native-easy-toast'
 import PostStyle from './PostStyle';
 import Comment from './Comment';
 import InlineImage from '../common/InlineImage';
@@ -50,6 +53,9 @@ class Post extends Component {
     this.state = {
       postDetail: {},
       loading: true,
+      token: '',
+      confirmVis: false,
+      isCollect: false,
     };
   }
 
@@ -68,6 +74,9 @@ class Post extends Component {
 
   componentWillMount() {
     const { postInfo } = this.props.navigation.state.params;
+    const { token } = this.props;
+    const { id } = postInfo;
+    this.setState({ token, id});
     // props中已经含有文章内容以及作者信息，直接用于渲染，仅仅获取评论
     if (postInfo.content) {
       const { content, author, create_at, visit_count, title} = postInfo;
@@ -80,14 +89,15 @@ class Post extends Component {
         title,
       });
     }
-    const { id } = postInfo;
     this.getPostDetail(id);
   }
 
   getPostDetail(id) {
+    const { token } = this.props;
     axios.get(`https://cnodejs.org/api/v1/topic/${id}`,{
       params: {
         mdrender: true,
+        accesstoken : token,
       }
     }).then((res) => {
       this.setState({ loading: false })
@@ -96,6 +106,7 @@ class Post extends Component {
         this.setState({
           postDetail: data,
           content: data.content,
+          isCollect: data.is_collect,
         });
       } else {
         console.warn(res.statusText);
@@ -145,9 +156,54 @@ class Post extends Component {
     }
   }
 
+  // 收藏、取消收藏
+  onPressFav() {
+    const { token, isCollect, id} = this.state;
+    if (!token) {
+      this.setState({
+        confirmVis: true,
+      });
+    } else {
+      // 根据当前状态判断是取消收藏还是添加收藏
+      let url;
+      if (isCollect) {
+        url = 'https://cnodejs.org/api/v1/topic_collect/de_collect';
+      } else {
+        url = 'https://cnodejs.org/api/v1/topic_collect/collect';
+      }
+      axios.post(url, {
+        accesstoken: token,
+        topic_id: id,
+      })
+      .then(res => {
+        if (res.status === 200) {
+          const data = res.data;
+          if (data.success) {
+            this.setState({ isCollect: !isCollect});
+            if (isCollect) {
+              this.refs.toast.show('取消收藏成功', 500);
+            } else {
+              this.refs.toast.show('收藏成功', 500);
+            }
+          }
+        }
+      })
+      .catch(e => {
+        console.error(e);
+      });
+    }
+  }
+  handleLogin() {
+    this.setState({
+      confirmVis: false,
+    });
+    const { navigation } = this.props;
+    navigation.navigate('Login');
+  }
   render() {
     let title, author, create_at, visit_count, content;
     const { postInfo } = this.props.navigation.state.params;
+    const { isCollect } = this.state;
     if (postInfo.content) {
       // 直接使用传入的参数渲染
       title = this.state.title;
@@ -206,12 +262,14 @@ class Post extends Component {
                   <View
                     style={{flex: 1,flexDirection: 'row', justifyContent: 'flex-end'}}
                   >
+                  <TouchableOpacity  onPress={() => this.onPressFav()}>
                     <Icon
-                      name="md-heart-outline"
-                      size={16}
-                      color="#000"
+                      name={isCollect ? 'md-heart' : 'md-heart-outline'}
+                      size={22}
+                      color="#333"
                       style={{marginRight: 20}}
                     />
+                  </TouchableOpacity >
                   </View>
                 </View>
               </View>
@@ -231,9 +289,27 @@ class Post extends Component {
             </View>
           )
         }
+        <MaterialDialog
+          title="CNode社区"
+          visible={this.state.confirmVis}
+          cancelLabel="取消"
+          okLabel="去登录"
+          onOk={this.handleLogin.bind(this)}
+          onCancel={() => this.setState({ confirmVis: false})}
+        >
+          <Text>
+            该操作需要登录账户，是否现在登录？
+          </Text>
+        </MaterialDialog>
+        <Toast ref="toast" position="center"/>
       </ScrollView>
     );
   }
 };
 
-export default Post;
+const mapStateToProps = ({ token, userInfo }) => ({
+    token,
+    userInfo,
+});
+
+export default connect(mapStateToProps)(Post);
