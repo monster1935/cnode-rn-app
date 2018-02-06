@@ -103,7 +103,7 @@ class PostList extends Component {
   renderItem = ({item, index}) => (
     <TouchableNativeFeedback
       onPress={() => {
-        this.props.navigation.navigate('Post', {item});
+        this.props.navigation.navigate('Post', {postInfo: item});
       }}
     >
       <View>

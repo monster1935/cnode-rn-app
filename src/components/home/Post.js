@@ -11,6 +11,7 @@ import {
   Dimensions,
   TouchableOpacity,
   TouchableNativeFeedback,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
@@ -20,6 +21,8 @@ import HTMLView from 'react-native-htmlview';
 import PostStyle from './PostStyle';
 import Comment from './Comment';
 import InlineImage from '../common/InlineImage';
+
+const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create(
   {
@@ -45,7 +48,8 @@ class Post extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      postInfo: {},
+      postDetail: {},
+      loading: true,
     };
   }
 
@@ -63,34 +67,23 @@ class Post extends Component {
   })
 
   componentWillMount() {
-    const postInfo = this.props.navigation.state.params.item;
-    const { id, tab, author,title, content, create_at, visit_count } = postInfo;
-    this.setState({
-      postInfo: {},
-      id,
-      tab,
-      title,
-      author,
-      content,
-      create_at,
-      visit_count,
-    }, () => {
-      this.getPostDetail();
-    });
-
+    const { postInfo } = this.props.navigation.state.params;
+    const { id, content } = postInfo;
+    this.getPostDetail(id);
   }
 
-  getPostDetail() {
-    const { id } = this.state;
+  getPostDetail(id) {
     axios.get(`https://cnodejs.org/api/v1/topic/${id}`,{
       params: {
         mdrender: true,
       }
     }).then((res) => {
+      this.setState({ loading: false })
       if (res.status == 200) {
         const data = res.data.data;
         this.setState({
-          postInfo: data,
+          postDetail: data,
+          content: data.content,
         });
       } else {
         console.warn(res.statusText);
@@ -103,7 +96,7 @@ class Post extends Component {
   // 头像点击导航
   onPressToUser() {
     const { navigation } = this.props;
-    const { loginname } = this.state.postInfo.author;
+    const { loginname } = this.state.postDetail.author;
     navigation.navigate('User', {loginname});
   }
 
@@ -141,62 +134,76 @@ class Post extends Component {
   }
 
   render() {
-    const { postInfo, tab, author, content, title, visit_count, create_at} = this.state;
+    const { tab, author, content, title, visit_count, create_at} = this.state.postDetail;
+    const { loading } = this.state;
     const createTime = moment(create_at).fromNow();
     return (
       <ScrollView style={styles.container}>
-        <View style={styles.block}>
-          <Text
-            style={{fontSize: 20, fontWeight: '700', color: '#333', marginBottom: 10}}
-          >
-            {title}
-          </Text>
-          <View
-            style={styles.block,{flexDirection: 'row', alignItems: 'center'}}
-          >
-            <TouchableNativeFeedback onPress={this.onPressToUser.bind(this)}>
-              <View>
-                <Image
-                  source={{uri: author && author.avatar_url}}
-                  style={{width: 30, height: 30, borderRadius: 50, marginRight: 10}}
+        {
+          loading ?
+          (
+            <View style={{height: height - 100, justifyContent: 'center', alignItems: 'center'}}>
+              <ActivityIndicator size="large" color="#343434" />
+            </View>
+          )
+          :
+          (
+            <View>
+              <View style={styles.block}>
+                <Text
+                  style={{fontSize: 20, fontWeight: '700', color: '#333', marginBottom: 10}}
+                >
+                  {title}
+                </Text>
+                <View
+                  style={styles.block,{flexDirection: 'row', alignItems: 'center'}}
+                >
+                  <TouchableNativeFeedback onPress={this.onPressToUser.bind(this)}>
+                    <View>
+                      <Image
+                        source={{uri: author && author.avatar_url}}
+                        style={{width: 30, height: 30, borderRadius: 50, marginRight: 10}}
+                      />
+                    </View>
+                  </TouchableNativeFeedback>
+                  <View>
+                    <Text
+                      style={{fontSize: 12, color: '#333'}}
+                    >
+                      {author && author.loginname}
+                    </Text>
+                    <Text style={{fontSize: 12}}>
+                      {createTime} 创建 ▪ {visit_count} 次浏览
+                    </Text>
+                  </View>
+                  <View
+                    style={{flex: 1,flexDirection: 'row', justifyContent: 'flex-end'}}
+                  >
+                    <Icon
+                      name="md-heart-outline"
+                      size={16}
+                      color="#000"
+                      style={{marginRight: 20}}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.block}>
+                <HTMLView
+                  value={content}
+                  stylesheet={PostStyle}
+                  style={{backgroundColor: '#fff'}}
+                  textComponentProps={{style: {flex: 1}}}
+                  renderNode={this.renderNode}
+                  onLinkPress={(url) => this.handlePressLink(url)}
                 />
               </View>
-            </TouchableNativeFeedback>
-            <View>
-              <Text
-                style={{fontSize: 12, color: '#333'}}
-              >
-                {author.loginname}
-              </Text>
-              <Text style={{fontSize: 12}}>
-                {createTime} 创建 ▪ {visit_count} 次浏览
-              </Text>
+              <View>
+                <Comment replies={this.state.postDetail.replies} navigation={this.props.navigation}></Comment>
+              </View>
             </View>
-            <View
-              style={{flex: 1,flexDirection: 'row', justifyContent: 'flex-end'}}
-            >
-              <Icon
-                name="md-heart-outline"
-                size={16}
-                color="#000"
-                style={{marginRight: 20}}
-              />
-            </View>
-          </View>
-        </View>
-        <View style={styles.block}>
-          <HTMLView
-            value={content}
-            stylesheet={PostStyle}
-            style={{backgroundColor: '#fff'}}
-            textComponentProps={{style: {flex: 1}}}
-            renderNode={this.renderNode}
-            onLinkPress={(url) => this.handlePressLink(url)}
-          />
-        </View>
-        <View>
-          <Comment replies={postInfo.replies} navigation={this.props.navigation}></Comment>
-        </View>
+          )
+        }
       </ScrollView>
     );
   }

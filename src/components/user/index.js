@@ -122,6 +122,16 @@ class User extends Component {
     );
   }
 
+  renderItem(item) {
+    return (
+      <TouchableNativeFeedback onPress={() => this.props.navigation.navigate('Post', {postInfo: item})}>
+        <View>
+          <UserItem data={item}/>
+        </View>
+      </TouchableNativeFeedback>
+
+    )
+  }
   render() {
     const { scrollY, userInfo, isRefreshing} = this.state;
     const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
@@ -186,7 +196,7 @@ class User extends Component {
               sections={[{key: 1, title: 'about1', data: userInfo && userInfo.recent_topics || []}]}
               refreshing={isRefreshing}
               keyExtractor={(item, index) => index}
-              renderItem={({item}) => <UserItem data={item} />}
+              renderItem={({item}) => this.renderItem(item)}
               onScroll={Animated.event(
                   [{ nativeEvent: { contentOffset: { y: scrollY }}}],
                   { useNativeDriver: true }
@@ -200,7 +210,7 @@ class User extends Component {
               sections={[{key: 2, title: 'about2', data: userInfo && userInfo.recent_replies || []}]}
               refreshing={isRefreshing}
               keyExtractor={(item, index) => index}
-              renderItem={({item}) => <UserItem data={item} />}
+              renderItem={({item}) => this.renderItem(item)}
               onScroll={Animated.event(
                   [{ nativeEvent: { contentOffset: { y: scrollY }}}],
                   { useNativeDriver: true }

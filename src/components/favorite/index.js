@@ -59,7 +59,6 @@ class Favorite extends Component {
   }
 
   getData(loginname) {
-    console.log('loginname: ',loginname);
     axios.get(`https://cnodejs.org/api/v1/topic_collect/${loginname}`).then(res => {
       const data = res.data;
       this.setState({
@@ -80,7 +79,7 @@ class Favorite extends Component {
 
   renderItem = ({item, index}) => (
     <TouchableNativeFeedback
-      onPress={() => {this.props.navigation.navigate('Post', {item})}}
+      onPress={() => {this.props.navigation.navigate('Post', {postInfo: item})}}
     >
       <View>
         <PostItem
