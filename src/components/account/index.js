@@ -17,7 +17,7 @@ class Account extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '我的',
     headerTitleStyle: {
-      fontSize: 18,
+      fontSize: 20,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',

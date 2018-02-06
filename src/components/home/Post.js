@@ -52,7 +52,7 @@ class Post extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '话题',
     headerTitleStyle: {
-      fontSize: 18,
+      fontSize: 20,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',
@@ -120,7 +120,7 @@ class Post extends Component {
           source={{uri: uri}}
           key={index}
           style={{width: width - 30, height: 200}}
-          resizeMode='cover'
+          resizeMode='contain'
         />
       )
     }
@@ -147,7 +147,7 @@ class Post extends Component {
       <ScrollView style={styles.container}>
         <View style={styles.block}>
           <Text
-            style={{fontSize: 16, fontWeight: '700', color: '#333', marginBottom: 10}}
+            style={{fontSize: 20, fontWeight: '700', color: '#333', marginBottom: 10}}
           >
             {title}
           </Text>
@@ -188,6 +188,7 @@ class Post extends Component {
           <HTMLView
             value={content}
             stylesheet={PostStyle}
+            style={{backgroundColor: '#fff'}}
             textComponentProps={{style: {flex: 1}}}
             renderNode={this.renderNode}
             onLinkPress={(url) => this.handlePressLink(url)}

@@ -29,7 +29,7 @@ class Favorite extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '收藏',
     headerTitleStyle: {
-      fontSize: 18,
+      fontSize: 20,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',

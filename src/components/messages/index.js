@@ -26,7 +26,7 @@ class Messages extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '消息',
     headerTitleStyle: {
-      fontSize: 18,
+      fontSize: 20,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',

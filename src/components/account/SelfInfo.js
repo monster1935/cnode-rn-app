@@ -18,7 +18,7 @@ class SelfInfo extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '个人信息',
     headerTitleStyle: {
-      fontSize: 18,
+      fontSize: 20,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',

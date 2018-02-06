@@ -41,7 +41,7 @@ class WebContainer extends Component {
       </TouchableNativeFeedback>
     ),
     headerTitleStyle: {
-      fontSize: 18,
+      fontSize: 20,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',

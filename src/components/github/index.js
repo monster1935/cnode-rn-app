@@ -12,7 +12,7 @@ class Github extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Github帐号登录',
     headerTitleStyle: {
-      fontSize: 18,
+      fontSize: 20,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',

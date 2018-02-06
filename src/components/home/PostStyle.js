@@ -23,4 +23,19 @@ export default {
     fontWeight: '300',
     color: '#0E83E1',
   },
+  p: {
+    fontSize: 16,
+    color: '#666',
+    lineHeight: 30,
+  },
+  div: {
+    fontSize: 16,
+    color: '#666',
+    lineHeight: 30,
+  },
+  li: {
+    fontSize: 16,
+    color: '#666',
+    lineHeight: 30,
+  },
 };

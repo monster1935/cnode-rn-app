@@ -5,7 +5,13 @@ import { Text, View, StyleSheet, Image} from 'react-native';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import HTMLView from 'react-native-htmlview';
-import PostStyle from './PostStyle';
+
+const PostStyle = {
+  p: {
+    lineHeight: 26,
+    color: '#666',
+  }
+};
 
 class PostItem extends Component {
   constructor(props) {
@@ -64,12 +70,15 @@ class PostItem extends Component {
         </View>
         <View style={{marginBottom: 6}}>
           <Text
-            style={{color: '#000', marginTop: 6, marginBottom: 6, fontSize: 16}}
+            style={{color: '#333', marginTop: 6, marginBottom: 6, fontSize: 16, fontWeight: '700'}}
           >
             {item.title}
           </Text>
-          <HTMLView value={this.getPreContent()} stylesheet={PostStyle} renderNode={this.renderNode}>
-          </HTMLView>
+          <HTMLView
+            value={this.getPreContent()}
+            stylesheet={PostStyle}
+            renderNode={this.renderNode}
+          />
         </View>
         <View>
           <Text style={{ fontSize: 12}}>

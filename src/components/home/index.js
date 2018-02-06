@@ -12,7 +12,7 @@ class Home extends Component {
   static navigationOptions = ({navigation}) => ({
     title: '主题',
     headerTitleStyle: {
-      fontSize: 18,
+      fontSize: 20,
       color: '#FEFEFE',
     },
     headerTintColor: '#FEFEFE',
