@@ -10,7 +10,11 @@ const PostStyle = {
   p: {
     lineHeight: 26,
     color: '#666',
-  }
+  },
+  a: {
+    fontWeight: '300',
+    color: '#0E83E1',
+  },
 };
 
 class PostItem extends Component {
