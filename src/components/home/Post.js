@@ -68,7 +68,19 @@ class Post extends Component {
 
   componentWillMount() {
     const { postInfo } = this.props.navigation.state.params;
-    const { id, content } = postInfo;
+    // props中已经含有文章内容以及作者信息，直接用于渲染，仅仅获取评论
+    if (postInfo.content) {
+      const { content, author, create_at, visit_count, title} = postInfo;
+      this.setState({
+        loading: false,
+        content,
+        author,
+        create_at,
+        visit_count,
+        title,
+      });
+    }
+    const { id } = postInfo;
     this.getPostDetail(id);
   }
 
@@ -134,9 +146,24 @@ class Post extends Component {
   }
 
   render() {
-    const { tab, author, content, title, visit_count, create_at} = this.state.postDetail;
-    const { loading } = this.state;
+    let title, author, create_at, visit_count, content;
+    const { postInfo } = this.props.navigation.state.params;
+    if (postInfo.content) {
+      // 直接使用传入的参数渲染
+      title = this.state.title;
+      author = this.state.author;
+      create_at = this.state.create_at;
+      visit_count = this.state.visit_count;
+      content = this.state.content;
+    } else {
+      title = this.state.postDetail.title;
+      author = this.state.postDetail.author;
+      create_at = this.state.postDetail.create_at;
+      visit_count = this.state.postDetail.visit_count;
+      content = this.state.postDetail.content;
+    }
     const createTime = moment(create_at).fromNow();
+    const { loading } = this.state;
     return (
       <ScrollView style={styles.container}>
         {
