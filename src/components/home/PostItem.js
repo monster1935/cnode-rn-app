@@ -4,13 +4,10 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, Image} from 'react-native';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import HTMLView from 'react-native-htmlview';
+import HTMLView from '../common/htmlview';
+import TextProps from '../common/TextProps';
 
 const PostStyle = {
-  p: {
-    lineHeight: 26,
-    color: '#666',
-  },
   a: {
     fontWeight: '300',
     color: '#0E83E1',
@@ -55,6 +52,19 @@ class PostItem extends Component {
     return content.substring(start,end);
   }
 
+  // a 标签 link处理，app内部webview渲染html
+  handlePressLink(url) {
+    const { navigation } = this.props;
+    const res = url.match(/\/user\//);
+    if (res && res.index === 0) {
+      // eg: /user/coldraincn 跳转用户详情
+      const loginname = url.split('/')[2];
+      navigation.navigate('User', { loginname })
+    } else {
+      // 跳转到webview 渲染具体的html
+      navigation.navigate('WebContainer', { url });
+    }
+  }
 
   render() {
     const { item } = this.state;
@@ -81,7 +91,9 @@ class PostItem extends Component {
           <HTMLView
             value={this.getPreContent()}
             stylesheet={PostStyle}
+            textComponentProps={TextProps}
             renderNode={this.renderNode}
+            onLinkPress={(url) => this.handlePressLink(url)}
           />
         </View>
         <View>

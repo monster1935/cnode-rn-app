@@ -19,11 +19,12 @@ import 'moment/locale/zh-cn';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { MaterialDialog } from 'react-native-material-dialog';
-import HTMLView from 'react-native-htmlview';
+import HTMLView from '../common/htmlview';
 import Toast, { DURATION } from 'react-native-easy-toast'
-import PostStyle from './PostStyle';
+import PostStyle from '../common/PostStyle';
+import TextProps from '../common/TextProps';
 import Comment from './Comment';
-import InlineImage from '../common/InlineImage';
+import AutoSizedImage from '../common/htmlview/AutoSizedImage';
 
 const { width, height } = Dimensions.get('window');
 
@@ -132,11 +133,10 @@ class Post extends Component {
       }
       const { width } = Dimensions.get('window');
       return (
-        <InlineImage
+        <AutoSizedImage
           source={{uri: uri}}
           key={index}
-          style={{width: width - 30, height: 200}}
-          resizeMode='contain'
+          style={{width: 0, height: 0}}
         />
       )
     }
@@ -278,7 +278,7 @@ class Post extends Component {
                   value={content}
                   stylesheet={PostStyle}
                   style={{backgroundColor: '#fff'}}
-                  textComponentProps={{style: {flex: 1}}}
+                  textComponentProps={TextProps}
                   renderNode={this.renderNode}
                   onLinkPress={(url) => this.handlePressLink(url)}
                 />

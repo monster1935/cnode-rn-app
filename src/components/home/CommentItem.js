@@ -12,10 +12,11 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import HTMLView from 'react-native-htmlview';
 import { connect } from 'react-redux';
-import InlineImage from '../common/InlineImage';
-import PostStyle from './PostStyle';
+import AutoSizedImage from '../common/htmlview/AutoSizedImage';
+import PostStyle from '../common/PostStyle';
+import HTMLView from '../common/htmlview';
+import TextProps from '../common/TextProps';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,25 +46,6 @@ class CommentItem extends Component {
     });
   }
 
-  renderNode(node,index) {
-    if (node.name == 'img') {
-      const { src } = node.attribs;
-      let uri = src;
-      if (!src.includes('http')) {
-        uri = 'http:' + src;
-      }
-      const { width } = Dimensions.get('window');
-      return (
-        <InlineImage
-          source={{uri: uri}}
-          key={index}
-          style={{width: width - 30, height: 200}}
-          resizeMode='cover'
-        />
-      )
-    }
-  }
-
   // navigate to user detail
   handlePressToUser(loginname) {
     const { navigation } = this.props;
@@ -81,6 +63,24 @@ class CommentItem extends Component {
     } else {
       // 跳转到webview 渲染具体的html
       navigation.navigate('WebContainer', { url });
+    }
+  }
+
+  renderNode(node, index, siblings, parent, defaultRenderer) {
+    if (node.name == 'img') {
+      const { src } = node.attribs;
+      let uri = src;
+      if (!src.includes('http')) {
+        uri = 'http:' + src;
+      }
+      const { width } = Dimensions.get('window');
+      return (
+        <AutoSizedImage
+          source={{uri: uri}}
+          key={index}
+          style={{width: 0, height: 0}}
+        />
+      )
     }
   }
 
@@ -106,6 +106,7 @@ class CommentItem extends Component {
               value={reply.content}
               stylesheet={PostStyle}
               renderNode={this.renderNode}
+              textComponentProps={TextProps}
               onLinkPress={(url) => this.handlePressLink(url)}
             />
             <View

@@ -109,6 +109,7 @@ class PostList extends Component {
       <View>
         <PostItem
           item={item}
+          navigation={this.props.navigation}
           index={index}
         />
       </View>
