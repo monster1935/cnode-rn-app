@@ -115,6 +115,20 @@ class PostList extends Component {
     </TouchableNativeFeedback>
   )
 
+  renderFooter() {
+    const { isRefreshing } = this.state;
+    if (isRefreshing) {
+      return null;
+    }
+    return (
+      <Text
+        style={{textAlign: 'center', padding: 10, transform: [{scale: 0.857143}]}}
+      >
+        已加载全部数据
+      </Text>
+    )
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -124,7 +138,7 @@ class PostList extends Component {
           removeClippedSubviews={false}
           refreshing={this.state.isRefreshing}
           onEndReached={this.loadMore.bind(this)}
-          ListFooterComponent={() => <Text style={{textAlign: 'center', padding: 10, transform: [{scale: 0.857143}]}}>已加载全部数据</Text>}
+          ListFooterComponent={this.renderFooter.bind(this)}
           renderItem={this.renderItem}
         />
       </View>
