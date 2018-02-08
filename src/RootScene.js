@@ -1,7 +1,16 @@
 // Copyright (c) 2018 by monster1935. All Rights Reserved.
 import React, { PureComponent } from 'react';
-import { View, Text } from 'react-native';
-import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
+import {
+  View,
+  Text,
+  Image,
+  TouchableNativeFeedback
+} from 'react-native';
+import {
+  StackNavigator,
+  TabNavigator,
+  TabBarBottom,
+} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
@@ -21,6 +30,7 @@ import About from './components/about';
 import User from './components/user';
 import SelfInfo from './components/account/SelfInfo';
 import WebContainer from './components/webcontainer';
+import Search from './components/search';
 import storage from './utils/storage';
 import { setToken, setUserInfo } from './redux/actions';
 
@@ -28,6 +38,7 @@ import { setToken, setUserInfo } from './redux/actions';
 const store = createStore(reducer,{
   token: '',
   userInfo: {},
+  postList: [],
 });
 
 // 读取登录token
@@ -124,9 +135,33 @@ const BasicApp = StackNavigator(
     User: { screen: User },
     SelfInfo: { screen: SelfInfo },
     WebContainer: { screen: WebContainer },
+    Search: { screen: Search },
   },
   {
     initialRouteName: 'Tab',
+    navigationOptions: (({navigation}) => ({
+      headerTitle: (
+        <Image
+          source={require('./assets/img/cnodejs.png')}
+          style={{marginLeft: 20}}
+        />
+      ),
+      headerTitleStyle: {
+        fontSize: 20,
+        color: '#FEFEFE',
+      },
+      headerRight: (
+        <TouchableNativeFeedback onPress={() => navigation.navigate('Search')}>
+          <View style={{width: 50, alignItems: 'center', height: '100%', justifyContent: 'center',}}>
+            <Icon name="md-search" size={25} color="#FEFEFE" />
+          </View>
+        </TouchableNativeFeedback>
+      ),
+      headerTintColor: '#FEFEFE',
+      headerStyle: {
+        backgroundColor: '#343434',
+      }
+    })),
   }
 );
 
@@ -139,7 +174,6 @@ class RootScene extends PureComponent {
           <BasicApp />
         </View>
       </Provider>
-
     )
   }
 };
