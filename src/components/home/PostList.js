@@ -11,8 +11,9 @@ import {
   TouchableNativeFeedback
 } from 'react-native';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import PostItem from './PostItem';
-
+import { setPostList } from '../../redux/actions'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -22,6 +23,10 @@ const styles = StyleSheet.create({
 const pageNumber = 1;
 
 class PostList extends Component {
+  static navigationOptions = {
+   header: null
+  };
+
   constructor(props) {
     super(props)
     this.state = {
@@ -41,9 +46,14 @@ class PostList extends Component {
     });
   }
 
-  static navigationOptions = {
-   header: null
-  };
+  shouldComponentUpdate(nextProps, nextState) {
+    // 存储全局postList, 用于前端检索
+    const { dispatch } = this.props;
+    const { postList } = nextState;
+    dispatch(setPostList(postList));
+    return true;
+  }
+
 
   doGetData(type, param = {}) {
     return axios.get('https://cnodejs.org/api/v1/topics',{
@@ -147,4 +157,4 @@ class PostList extends Component {
   }
 };
 
-export default PostList;
+export default connect()(PostList);
