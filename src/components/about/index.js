@@ -13,6 +13,7 @@ class About extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: '关于',
+    headerTitle: null,
     headerTitleStyle: {
       fontSize: 20,
       color: '#FEFEFE',
