@@ -49,6 +49,7 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
     return {...parentStyle, ...style};
   }
 
+  // 节点 后代中如果含有 img ，则该节点渲染为 View
   function _contains(children) {
     for(let i = 0, len = children.length; i < len; i++) {
       if (children[i].type === 'tag' && children[i].name === 'img' || _contains(children[i].children || [])) {
@@ -76,9 +77,9 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
         if (rendered || rendered === null) return rendered;
       }
       const {TextComponent} = opts;
-      console.log(node);
+
       if (node.type === 'tag') {
-        if (node.name === 'div' || (node.name === 'p' && _contains(node.children) )) {
+        if (node.name === 'div' || _contains(node.children)) {
           opts.NodeComponent = View;
         } else {
           opts.NodeComponent = Text;

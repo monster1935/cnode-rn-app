@@ -28,14 +28,17 @@ export default class AutoSizedImage extends PureComponent {
     }
     Image.getSize(this.props.source.uri, (w, h) => {
       this.setState({width: w, height: h});
+    },(e) => {
+      return;
     });
   }
 
   render() {
     const finalSize = {};
-    if (this.state.width > width) {
-      finalSize.width = width;
-      const ratio = width / this.state.width;
+    let viewWidth = this.props.viewWidth || width;
+    if (this.state.width > viewWidth) {
+      finalSize.width = viewWidth;
+      const ratio = viewWidth / this.state.width;
       finalSize.height = this.state.height * ratio;
     }
     const style = Object.assign(

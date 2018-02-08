@@ -69,18 +69,23 @@ class CommentItem extends Component {
   renderNode(node, index, siblings, parent, defaultRenderer) {
     if (node.name == 'img') {
       const { src } = node.attribs;
-      let uri = src;
-      if (!src.includes('http')) {
-        uri = 'http:' + src;
+      if (src) {
+        let uri = src;
+        if (!src.includes('http')) {
+          uri = 'http:' + src;
+        }
+        const { width } = Dimensions.get('window');
+        return (
+          <AutoSizedImage
+            source={{uri: uri}}
+            key={index}
+            viewWidth={ width  - 30 - 50 }
+            style={{width: 0, height: 0, }}
+          />
+        )
+      } else {
+        return null;
       }
-      const { width } = Dimensions.get('window');
-      return (
-        <AutoSizedImage
-          source={{uri: uri}}
-          key={index}
-          style={{width: 0, height: 0}}
-        />
-      )
     }
   }
 
