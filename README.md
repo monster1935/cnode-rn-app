@@ -54,7 +54,11 @@ react-native run-android
 ```
 ### App 截图
 
-待上传
+![](https://raw.githubusercontent.com/monster1935/cnode-rn-app/master/img/cnode-1.jpg)
+
+![](https://raw.githubusercontent.com/monster1935/cnode-rn-app/master/img/cnode-2.jpg)
+
+![](https://raw.githubusercontent.com/monster1935/cnode-rn-app/master/img/cnode-3.jpg)
 
 ### 最后
 
