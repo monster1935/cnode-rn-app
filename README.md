@@ -2,6 +2,10 @@
 
 > 该项目旨在学习react-native的开发方式，以 CNode 社区的 API 为基础，使用 React-Native 完成了 App 的大部分功能。特此感谢 [CNode 社区](https://cnodejs.org/)。
 
+### Download
+
+目前仅打包了 Android 下的安装文件，[点我下载](https://pan.baidu.com/s/1c38AqFu)
+
 ### TodoList
 
 #### 第一阶段
@@ -14,7 +18,7 @@
 - [x] 文章详情页的展示，评论的显示
 - [x] 基于token的扫码登录功能
 - [x] 文章的收藏功能
-- [x] 收藏、消息模块的登录鉴权以及相关现实
+- [x] 收藏、消息模块的登录鉴权以及相关显示
 - [x] 登录、设置、关于等相关模块的显示
 - [x] 评论的点赞功能
 - [ ] 添加发帖功能
