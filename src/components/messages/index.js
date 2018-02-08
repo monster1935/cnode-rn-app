@@ -23,19 +23,6 @@ class Messages extends Component {
     };
   }
 
-  static navigationOptions = ({navigation}) => ({
-    title: '消息',
-    headerTitleStyle: {
-      fontSize: 20,
-      color: '#FEFEFE',
-    },
-    headerTintColor: '#FEFEFE',
-    headerStyle: {
-      backgroundColor: '#343434',
-    }
-  })
-
-
   componentWillMount() {
     const { token } = this.props;
     this.setState({

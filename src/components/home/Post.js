@@ -62,6 +62,7 @@ class Post extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: '话题',
+    headerTitle: null,
     headerTitleStyle: {
       fontSize: 20,
       color: '#FEFEFE',

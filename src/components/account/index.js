@@ -14,18 +14,6 @@ import ListItem from './ListItem';
 
 class Account extends Component {
 
-  static navigationOptions = ({navigation}) => ({
-    title: '我的',
-    headerTitleStyle: {
-      fontSize: 20,
-      color: '#FEFEFE',
-    },
-    headerTintColor: '#FEFEFE',
-    headerStyle: {
-      backgroundColor: '#343434',
-    }
-  });
-
   constructor(props) {
     super(props);
     this.state = {

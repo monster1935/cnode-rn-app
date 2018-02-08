@@ -21,6 +21,7 @@ class Login extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: '登录',
+    headerTitle: null,
     headerTitleStyle: {
       fontSize: 20,
       color: '#FEFEFE',

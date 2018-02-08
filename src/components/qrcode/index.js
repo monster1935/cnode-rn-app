@@ -11,6 +11,7 @@ class QrCode extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: '二维码',
+    headerTitle: null,
     headerTitleStyle: {
       fontSize: 20,
       color: '#FEFEFE',

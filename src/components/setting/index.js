@@ -16,6 +16,7 @@ class Setting extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: '设置',
+    headerTitle: null,
     headerTitleStyle: {
       fontSize: 20,
       color: '#FEFEFE',

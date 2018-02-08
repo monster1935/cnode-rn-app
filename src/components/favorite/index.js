@@ -26,17 +26,7 @@ class Favorite extends Component {
       loginname: '',
     };
   }
-  static navigationOptions = ({navigation}) => ({
-    title: '收藏',
-    headerTitleStyle: {
-      fontSize: 20,
-      color: '#FEFEFE',
-    },
-    headerTintColor: '#FEFEFE',
-    headerStyle: {
-      backgroundColor: '#343434',
-    }
-  })
+
   componentWillMount() {
     const { token, userInfo } = this.props;
     this.setState({

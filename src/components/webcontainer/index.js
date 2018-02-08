@@ -22,6 +22,7 @@ class WebContainer extends Component {
 
   static navigationOptions = ({navigation}) =>  ({
     title: navigation.state.params.url,
+    headerTitle: null,
     headerLeft: (
       <TouchableNativeFeedback onPress={() => navigation.goBack()}>
         <View style={{width: 50, alignItems: 'center', height: '100%', justifyContent: 'center',}}>
@@ -32,7 +33,6 @@ class WebContainer extends Component {
     headerRight: (
       <TouchableNativeFeedback onPress={() => {
           const scope = navigation.state.params.that;
-          console.log(scope);
           scope.handlePressMore.call(scope);
       }}>
         <View style={{width: 50, alignItems: 'center', height: '100%', justifyContent: 'center',}}>

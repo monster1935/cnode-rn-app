@@ -17,6 +17,7 @@ class SelfInfo extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: '个人信息',
+    headerTitle: null,
     headerTitleStyle: {
       fontSize: 20,
       color: '#FEFEFE',
@@ -79,7 +80,7 @@ class SelfInfo extends Component {
         <View>
           <TouchableNativeFeedback onPress={this.handleLogout.bind(this)}>
             <View style={[styles.listItem, styles.btnLogin]}>
-              <Text style={{color: 'red', fontSize: 16}}>退出帐号</Text>
+              <Text style={{color: '#ff3b3f', fontSize: 16}}>退出帐号</Text>
             </View>
           </TouchableNativeFeedback>
         </View>
