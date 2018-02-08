@@ -7,12 +7,15 @@ import {
   View,
   StyleSheet,
   Dimensions,
+  TouchableOpacity,
   TouchableNativeFeedback,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import { connect } from 'react-redux';
+import { MaterialDialog } from 'react-native-material-dialog';
+import axios from 'axios';
 import AutoSizedImage from '../common/htmlview/AutoSizedImage';
 import PostStyle from '../common/PostStyle';
 import HTMLView from '../common/htmlview';
@@ -36,13 +39,19 @@ class CommentItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      reply: {}
+      reply: {},
+      numberUps: 0,
+      confirmVis: false,
+      token: '',
     };
   }
 
   componentWillMount() {
+    const { token } = this.props;
     this.setState({
       reply: this.props.reply,
+      numberUps: this.props.reply.ups.length,
+      token,
     });
   }
 
@@ -64,6 +73,41 @@ class CommentItem extends Component {
       // 跳转到webview 渲染具体的html
       navigation.navigate('WebContainer', { url });
     }
+  }
+
+  // 用户点赞处理
+  handlePressUps() {
+    const { token, reply, numberUps } = this.state;
+    if (!token) {
+      this.setState({
+        confirmVis: true,
+      });
+    } else {
+      const url = `https://cnodejs.org/api/v1/reply/${reply.id}/ups`;
+      axios.post(url, {
+        accesstoken: token,
+      })
+      .then(res => {
+        if (res.status === 200) {
+          const data = res.data;
+          this.setState({
+            reply: { ...reply, is_uped: data.action === 'up' },
+            numberUps: data.action === 'up' ? numberUps + 1 : numberUps - 1
+          });
+        }
+      })
+      .catch(e => {
+        console.error(e);
+      })
+    }
+  }
+
+  handleLogin() {
+    this.setState({
+      confirmVis: false,
+    });
+    const { navigation } = this.props;
+    navigation.navigate('Login');
   }
 
   renderNode(node, index, siblings, parent, defaultRenderer) {
@@ -90,7 +134,7 @@ class CommentItem extends Component {
   }
 
   render() {
-    const { reply }  = this.state;
+    const { reply, numberUps }  = this.state;
     return (
       <View style={styles.container}>
         <TouchableNativeFeedback onPress={() => this.handlePressToUser(reply.author.loginname)}>
@@ -122,21 +166,43 @@ class CommentItem extends Component {
               >
                 {moment(reply.create_at).fromNow()}
               </Text>
-              <View
-                style={{flexDirection: 'row', marginBottom: 6}}
-              >
-                <Icon name="md-thumbs-up" size={16} color={'#ccc'}></Icon>
+              <View style={{flexDirection: 'row', marginBottom: 6}}>
+                <TouchableOpacity onPress={this.handlePressUps.bind(this)}>
+                  <Icon
+                    name="md-thumbs-up"
+                    size={16}
+                    color={ reply.is_uped ? '#666' : '#ccc'}
+                  >
+                  </Icon>
+                </TouchableOpacity>
                 <Text
                   style={{marginLeft: 6,fontSize: 12, color: '#ccc'}}
                 >
-                  {reply.ups.length}
+                  {numberUps}
                 </Text>
               </View>
             </View>
           </View>
+          <MaterialDialog
+            title="CNode社区"
+            visible={this.state.confirmVis}
+            cancelLabel="取消"
+            okLabel="去登录"
+            onOk={this.handleLogin.bind(this)}
+            onCancel={() => this.setState({ confirmVis: false})}
+          >
+            <Text>
+              该操作需要登录账户，是否现在登录？
+            </Text>
+          </MaterialDialog>
       </View>
     )
   }
 };
 
-export default CommentItem;
+const mapStateToProps = ({ token, userInfo }) => ({
+    token,
+    userInfo,
+});
+
+export default connect(mapStateToProps)(CommentItem);

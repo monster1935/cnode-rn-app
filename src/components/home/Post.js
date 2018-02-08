@@ -157,7 +157,7 @@ class Post extends Component {
   }
 
   // 收藏、取消收藏
-  onPressFav() {
+  handlePressFav() {
     const { token, isCollect, id} = this.state;
     if (!token) {
       this.setState({
@@ -262,7 +262,7 @@ class Post extends Component {
                   <View
                     style={{flex: 1,flexDirection: 'row', justifyContent: 'flex-end'}}
                   >
-                  <TouchableOpacity  onPress={() => this.onPressFav()}>
+                  <TouchableOpacity  onPress={() => this.handlePressFav()}>
                     <Icon
                       name={isCollect ? 'md-heart' : 'md-heart-outline'}
                       size={22}
